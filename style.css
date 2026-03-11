@@ -1,6 +1,7 @@
 * {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
     /* box-shadow removed for cleaner look */
 }
 
@@ -29,7 +30,7 @@
 body.dark-mode {
     --cor-background: #0f0f0f;
     --cor-card: #1a1a1a;
-    --cor-texto: #e0e0e0;
+    --cor-texto: #c2c2c2;
     --cor-texto-secundario: #a0a0a0;
     --cor-borda: #262626;
 }
@@ -87,6 +88,71 @@ body.dark-mode .label-valor {
 
 body.dark-mode .resultado-mensagem {
     background: #0f0f0f;
+}
+
+body.dark-mode .resultado-mensagem p {
+    color: #ffffff;
+}
+
+body.dark-mode .resultado-mensagem strong {
+    color: #ffffff;
+    font-weight: 700;
+}
+
+body.dark-mode .recomendacao {
+    color: #64b5f6;
+    border-top-color: #3d3d3d;
+}
+
+body.dark-mode .recomendacao strong {
+    color: #64b5f6;
+}
+
+body.dark-mode .resultado-info {
+    background-color: #262626;
+    color: #ffffff;
+}
+
+body.dark-mode .resultado-info p {
+    color: #ffffff;
+}
+
+body.dark-mode .resultado-info strong {
+    color: #64b5f6;
+}
+
+body.dark-mode .resultado-info span {
+    color: #ffffff;
+}
+
+body.dark-mode .resultado-card h2 {
+    color: #ffffff;
+}
+
+body.dark-mode .label-valor {
+    background-color: #1a1a1a;
+    border-color: #3d3d3d;
+    color: #ffffff;
+}
+
+body.dark-mode .label-texto {
+    color: #ffffff;
+}
+
+body.dark-mode .label-valor-numerico {
+    color: #64b5f6;
+}
+
+body.dark-mode .escala-labels-posicao {
+    color: #64b5f6;
+}
+
+body.dark-mode .barra-progresso {
+    background-color: #2d2d2d;
+}
+
+body.dark-mode .resultado-grafico {
+    background-color: #1a1a1a;
 }
 
 body.dark-mode .info-card {
@@ -240,6 +306,7 @@ label {
 select,
 input[type="number"] {
     width: 100%;
+    max-width: 100%;
     padding: 12px 15px;
     border: 2px solid var(--cor-borda);
     border-radius: 8px;
@@ -248,6 +315,7 @@ input[type="number"] {
     font-family: 'Datatype', monospace, -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
     background-color: var(--cor-card);
     color: var(--cor-texto);
+    box-sizing: border-box;
 }
 
 select:hover,
@@ -273,11 +341,15 @@ input[type="number"]:disabled {
     display: flex;
     align-items: center;
     gap: 10px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .input-group input {
     flex: 1;
+    min-width: 0;
     margin-bottom: 0;
+    max-width: 100%;
 }
 
 .unidade {
@@ -665,7 +737,7 @@ footer {
     }
 
     main {
-        padding: 20px 10px;
+        padding: 20px 15px;
     }
 
     .form-section,
@@ -689,19 +761,30 @@ footer {
 
     select,
     input[type="number"] {
-        font-size: 16px; /* Evita zoom em inputs no iOS */
-        padding: 14px 12px;
+        font-size: 16px;
+        padding: 12px 12px;
+        width: 100%;
+        max-width: 100%;
     }
 
     .input-group {
         flex-direction: column;
         align-items: stretch;
+        gap: 8px;
+        width: 100%;
+    }
+
+    .input-group input {
+        width: 100%;
+        max-width: 100%;
+        flex: none;
     }
 
     .unidade {
-        text-align: left;
+        text-align: center;
         min-width: auto;
         padding: 8px 0;
+        font-size: 0.95rem;
     }
 
     .label-valor {
@@ -731,65 +814,122 @@ footer {
         font-size: 0.9rem;
     }
 
+    main {
+        padding: 15px 12px;
+    }
+
     .form-section,
     .resultado-card {
-        padding: 15px;
+        padding: 15px 12px;
+        margin-bottom: 20px;
+    }
+
+    .form-group {
+        margin-bottom: 18px;
+    }
+
+    label {
+        font-size: 0.95rem;
+        margin-bottom: 6px;
+    }
+
+    select,
+    input[type="number"] {
+        font-size: 16px;
+        padding: 12px 12px;
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .input-group {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 6px;
+        width: 100%;
+    }
+
+    .input-group input {
+        width: 100%;
+        max-width: 100%;
+        flex: none;
+    }
+
+    .unidade {
+        text-align: center;
+        min-width: auto;
+        padding: 6px 0;
+        font-size: 0.9rem;
+        color: var(--cor-primaria);
+        font-weight: 600;
+    }
+
+    .btn-analisar,
+    .btn-novo-teste {
+        padding: 12px 16px;
+        font-size: 0.95rem;
+        width: 100%;
     }
 
     .resultado-info {
-        padding: 15px;
+        padding: 12px;
         font-size: 0.9rem;
     }
 
     .resultado-mensagem {
-        padding: 15px;
+        padding: 12px;
     }
 
     .aviso-medico {
         font-size: 0.9rem;
-        padding: 15px;
+        padding: 12px;
     }
 
     #posicao-valor {
-        height: 150px;
+        height: 140px;
         margin-bottom: 20px;
     }
 
     .barra-progresso {
         top: 40px;
-        height: 20px;
+        height: 18px;
     }
 
     .marcador-posicao {
-        font-size: 1.5rem;
+        font-size: 1.3rem;
     }
 
     .label-valor {
-        font-size: 0.85rem;
-        margin-bottom: 18px;
+        font-size: 0.8rem;
+        margin-bottom: 16px;
         padding: 6px 10px;
+        max-width: 90%;
     }
 
     .escala-labels-posicao {
-        margin-top: 70px;
+        margin-top: 65px;
         gap: 5px;
     }
 
     .label-texto {
-        font-size: 0.75rem;
+        font-size: 0.7rem;
     }
 
     .label-valor-numerico {
-        font-size: 0.65rem;
+        font-size: 0.6rem;
     }
 
     .resultado-status {
-        font-size: 1.3rem;
+        font-size: 1.2rem;
+        padding: 12px 15px;
+    }
+
+    .resultado-card h2 {
+        font-size: 1.2rem;
     }
 
     .resultado-grafico {
-        padding: 15px;
-        margin: 20px 0;
+        padding: 12px;
+        margin: 15px 0;
     }
 }
 
