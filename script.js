@@ -123,13 +123,8 @@ function analisarResultado() {
 function exibirResultado(valor, status, statusClass, mensagem) {
     // Atualizar status visual
     const resultadoStatus = document.getElementById('resultado-status');
-    const iconMap = {
-        'NORMAL': '✅',
-        'ALTO': '⚠️',
-        'BAIXO': '⚠️'
-    };
     
-    resultadoStatus.textContent = `Resultado: ${status} ${iconMap[status]}`;
+    resultadoStatus.textContent = `Resultado: ${status}`;
     resultadoStatus.className = `resultado-status ${statusClass}`;
     
     // Atualizar informações
@@ -159,7 +154,6 @@ function exibirResultado(valor, status, statusClass, mensagem) {
 // Desenhar gráfico de posição do resultado
 function desenharGraficoResultado(valor, statusClass) {
     const posicaoValorDiv = document.getElementById('posicao-valor');
-    const escalaDiv = document.querySelector('.escala');
     
     // Calcular percentual de posição
     const range = exameSelecionado.maximo - exameSelecionado.minimo;
@@ -168,6 +162,12 @@ function desenharGraficoResultado(valor, statusClass) {
     
     // Limpar e recriar o gráfico
     posicaoValorDiv.innerHTML = '';
+    
+    // Label do valor do usuário (topo)
+    const labelValor = document.createElement('div');
+    labelValor.className = 'label-valor';
+    labelValor.textContent = `Seu valor: ${valor}`;
+    posicaoValorDiv.appendChild(labelValor);
     
     // Barra de progresso
     const barraProgresso = document.createElement('div');
@@ -187,13 +187,21 @@ function desenharGraficoResultado(valor, statusClass) {
     marcador.innerHTML = '▼';
     posicaoValorDiv.appendChild(marcador);
     
-    // Labels da escala
+    // Labels da escala (embaixo)
     const labelsDiv = document.createElement('div');
     labelsDiv.className = 'escala-labels-posicao';
     labelsDiv.innerHTML = `
-        <span class="label-min">${exameSelecionado.minimo}</span>
-        <span class="label-valor">Seu valor: ${valor}</span>
-        <span class="label-max">${exameSelecionado.maximo}</span>
+        <div class="label-escala">
+            <div class="label-texto">Baixo</div>
+            <span class="label-valor-numerico">${exameSelecionado.minimo}</span>
+        </div>
+        <div class="label-escala">
+            <div class="label-texto"></div>
+        </div>
+        <div class="label-escala">
+            <div class="label-texto">Alto</div>
+            <span class="label-valor-numerico">${exameSelecionado.maximo}</span>
+        </div>
     `;
     posicaoValorDiv.appendChild(labelsDiv);
 }
