@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interpretador de Exames Laboratoriais</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Topo da página -->
+    <header>
+        <div class="container">
+            <h1>🔬 Interpretador de Exames Laboratoriais</h1>
+            <p class="subtitle">Digite os valores do seu exame para entender se estão dentro da faixa de referência.</p>
+        </div>
+    </header>
+
+    <!-- Conteúdo principal -->
+    <main>
+        <div class="container">
+            <!-- Formulário -->
+            <section class="form-section">
+                <div class="form-group">
+                    <label for="exame-select">Selecione o exame:</label>
+                    <select id="exame-select">
+                        <option value="">-- Escolha um exame --</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="valor-input">Digite o valor do exame:</label>
+                    <div class="input-group">
+                        <input 
+                            type="number" 
+                            id="valor-input" 
+                            placeholder="Ex: 95" 
+                            step="0.01"
+                            disabled
+                        >
+                        <span id="unidade-display" class="unidade"></span>
+                    </div>
+                </div>
+
+                <button id="analisar-btn" class="btn-analisar" disabled>
+                    Analisar resultado
+                </button>
+            </section>
+
+            <!-- Área de resultado -->
+            <section id="resultado-section" class="resultado-section hidden">
+                <div class="resultado-card">
+                    <div id="resultado-status" class="resultado-status"></div>
+                    <h2 id="resultado-titulo">Resultado</h2>
+                    
+                    <div class="resultado-info">
+                        <p><strong>Exame:</strong> <span id="resultado-exame"></span></p>
+                        <p><strong>Seu valor:</strong> <span id="resultado-valor"></span></p>
+                        <p><strong>Intervalo de referência:</strong> <span id="resultado-intervalo"></span></p>
+                    </div>
+
+                    <div id="resultado-grafico" class="resultado-grafico">
+                        <div class="escala">
+                            <div class="marcador baixo"></div>
+                            <div class="marcador normal"></div>
+                            <div class="marcador alto"></div>
+                        </div>
+                        <div class="escala-labels">
+                            <span>Baixo</span>
+                            <span>Normal</span>
+                            <span>Alto</span>
+                        </div>
+                        <div id="posicao-valor" class="posicao-valor"></div>
+                    </div>
+
+                    <div id="resultado-mensagem" class="resultado-mensagem"></div>
+
+                    <button id="novo-teste-btn" class="btn-novo-teste">
+                        Testar outro exame
+                    </button>
+                </div>
+            </section>
+
+            <!-- Informações sobre exame -->
+            <section id="info-exame-section" class="info-exame-section hidden">
+                <div class="info-card">
+                    <h3 id="info-titulo">Sobre este exame</h3>
+                    <p id="info-descricao"></p>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Rodapé com aviso médico -->
+    <footer>
+        <div class="container">
+            <div class="aviso-medico">
+                <strong>⚠️ Atenção:</strong> Este site possui caráter educativo e informativo. 
+                Ele <strong>não substitui</strong> avaliação médica ou diagnóstico profissional. 
+                Sempre consulte um profissional de saúde para interpretação correta de seus exames.
+            </div>
+            <p class="footer-credit">Desenvolvido com ❤️ para educação em saúde</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="dados_exames.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

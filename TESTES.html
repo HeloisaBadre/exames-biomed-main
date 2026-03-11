@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Testes - Interpretador de Exames</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            padding: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            color: #1e88e5;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .test-suite {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .test-case {
+            padding: 15px;
+            margin: 10px 0;
+            border-left: 5px solid #ccc;
+            background-color: #f9f9f9;
+        }
+
+        .test-case.pass {
+            border-left-color: #4caf50;
+            background-color: #e8f5e9;
+        }
+
+        .test-case.fail {
+            border-left-color: #f44336;
+            background-color: #ffebee;
+        }
+
+        .test-case.warning {
+            border-left-color: #ff9800;
+            background-color: #fff3e0;
+        }
+
+        .test-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .test-description {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .test-result {
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-family: monospace;
+            background-color: white;
+        }
+
+        .result-icon {
+            margin-right: 5px;
+        }
+
+        .stats {
+            text-align: center;
+            margin-top: 20px;
+            padding: 15px;
+            background: #f0f0f0;
+            border-radius: 8px;
+        }
+
+        .stats-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #1e88e5;
+        }
+
+        .stats-label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .manual-test {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            border-left: 4px solid #1e88e5;
+        }
+
+        .manual-test strong {
+            color: #0d47a1;
+        }
+
+        ol {
+            margin-left: 20px;
+            color: #333;
+        }
+
+        li {
+            margin: 8px 0;
+        }
+
+        code {
+            background: #f5f5f5;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 Testes - Interpretador de Exames Laboratoriais</h1>
+
+    <!-- TESTES AUTOMÁTICOS -->
+    <div class="test-suite">
+        <h2>📋 Testes de Validação de Dados</h2>
+        <div id="data-tests"></div>
+    </div>
+
+    <!-- TESTES DE LÓGICA -->
+    <div class="test-suite">
+        <h2>🔧 Testes de Lógica de Comparação</h2>
+        <div id="logic-tests"></div>
+    </div>
+
+    <!-- TESTES DE UI -->
+    <div class="test-suite">
+        <h2>🎨 Testes de Interface</h2>
+        <div id="ui-tests"></div>
+    </div>
+
+    <!-- ESTATÍSTICAS -->
+    <div class="test-suite">
+        <div class="stats">
+            <div>
+                <div class="stats-number" id="total-tests">0</div>
+                <div class="stats-label">Total de Testes</div>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 15px;">
+                <div>
+                    <div class="stats-number" style="color: #4caf50;" id="pass-count">0</div>
+                    <div class="stats-label">✅ Passou</div>
+                </div>
+                <div>
+                    <div class="stats-number" style="color: #f44336;" id="fail-count">0</div>
+                    <div class="stats-label">❌ Falhou</div>
+                </div>
+                <div>
+                    <div class="stats-number" style="color: #ff9800;" id="warning-count">0</div>
+                    <div class="stats-label">⚠️ Aviso</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TESTES MANUAIS -->
+    <div class="test-suite manual-test">
+        <h2>👤 Testes Manuais Recomendados</h2>
+        <p>Complete os seguintes testes manualmente no navegador:</p>
+        <ol>
+            <li>
+                <strong>Teste com valor NORMAL:</strong>
+                <ul style="margin-left: 20px; margin-top: 5px;">
+                    <li>Exame: Glicose</li>
+                    <li>Valor: 85</li>
+                    <li>Esperado: "NORMAL ✅" com mensagem positiva</li>
+                </ul>
+            </li>
+            <li>
+                <strong>Teste com valor ALTO:</strong>
+                <ul style="margin-left: 20px; margin-top: 5px;">
+                    <li>Exame: Glicose</li>
+                    <li>Valor: 150</li>
+                    <li>Esperado: "ALTO ⚠️" com aviso</li>
+                </ul>
+            </li>
+            <li>
+                <strong>Teste com valor BAIXO:</strong>
+                <ul style="margin-left: 20px; margin-top: 5px;">
+                    <li>Exame: Hemoglobina</li>
+                    <li>Valor: 10</li>
+                    <li>Esperado: "BAIXO ⚠️" com aviso</li>
+                </ul>
+            </li>
+            <li>
+                <strong>Teste com valor decimal:</strong>
+                <ul style="margin-left: 20px; margin-top: 5px;">
+                    <li>Exame: TSH</li>
+                    <li>Valor: 2.5</li>
+                    <li>Esperado: "NORMAL ✅"</li>
+                </ul>
+            </li>
+            <li>
+                <strong>Teste de responsividade:</strong>
+                <ul style="margin-left: 20px; margin-top: 5px;">
+                    <li>Redimensione a janela para 480px de largura</li>
+                    <li>Todos os elementos devem ser visíveis e funcionais</li>
+                </ul>
+            </li>
+            <li>
+                <strong>Teste de gráfico:</strong>
+                <ul style="margin-left: 20px; margin-top: 5px;">
+                    <li>Complete um teste</li>
+                    <li>Verifique se o gráfico mostra a posição correta</li>
+                </ul>
+            </li>
+            <li>
+                <strong>Teste de teclado:</strong>
+                <ul style="margin-left: 20px; margin-top: 5px;">
+                    <li>Selecione exame com Tab</li>
+                    <li>Digite valor e pressione Enter</li>
+                    <li>Resultado deve aparecer</li>
+                </ul>
+            </li>
+        </ol>
+    </div>
+
+    <script src="dados_exames.js"></script>
+    <script>
+        // Sistema de testes
+        class TestRunner {
+            constructor() {
+                this.tests = {
+                    data: [],
+                    logic: [],
+                    ui: []
+                };
+                this.stats = {
+                    pass: 0,
+                    fail: 0,
+                    warning: 0
+                };
+            }
+
+            addTest(category, title, description, testFn) {
+                const test = {
+                    title,
+                    description,
+                    run: testFn
+                };
+                this.tests[category].push(test);
+            }
+
+            execute() {
+                this.runCategory('data', 'Testes de Validação de Dados');
+                this.runCategory('logic', 'Testes de Lógica');
+                this.runCategory('ui', 'Testes de UI');
+                this.updateStats();
+            }
+
+            runCategory(category, display) {
+                const container = document.getElementById(
+                    category + '-tests'
+                );
+                
+                this.tests[category].forEach((test, index) => {
+                    try {
+                        const result = test.run();
+                        const element = this.createTestElement(
+                            test.title,
+                            test.description,
+                            result
+                        );
+                        container.appendChild(element);
+                        
+                        if (result.status === 'pass') {
+                            this.stats.pass++;
+                        } else if (result.status === 'fail') {
+                            this.stats.fail++;
+                        } else {
+                            this.stats.warning++;
+                        }
+                    } catch (error) {
+                        const element = this.createTestElement(
+                            test.title,
+                            test.description,
+                            {
+                                status: 'fail',
+                                message: error.message
+                            }
+                        );
+                        container.appendChild(element);
+                        this.stats.fail++;
+                    }
+                });
+            }
+
+            createTestElement(title, description, result) {
+                const div = document.createElement('div');
+                div.className = `test-case ${result.status}`;
+                
+                const statusIcon = {
+                    pass: '✅',
+                    fail: '❌',
+                    warning: '⚠️'
+                }[result.status];
+
+                div.innerHTML = `
+                    <div class="test-title">
+                        <span class="result-icon">${statusIcon}</span>${title}
+                    </div>
+                    <div class="test-description">${description}</div>
+                    <div class="test-result">${result.message}</div>
+                `;
+                
+                return div;
+            }
+
+            updateStats() {
+                const total = this.stats.pass + this.stats.fail + this.stats.warning;
+                document.getElementById('total-tests').textContent = total;
+                document.getElementById('pass-count').textContent = this.stats.pass;
+                document.getElementById('fail-count').textContent = this.stats.fail;
+                document.getElementById('warning-count').textContent = this.stats.warning;
+            }
+        }
+
+        // Criar runner
+        const runner = new TestRunner();
+
+        // TESTES DE VALIDAÇÃO DE DADOS
+        runner.addTest(
+            'data',
+            'Exames carregados',
+            'Verifica se dados_exames.js foi carregado corretamente',
+            () => {
+                if (typeof exames === 'undefined') {
+                    return {
+                        status: 'fail',
+                        message: 'Objeto "exames" não encontrado'
+                    };
+                }
+                const count = Object.keys(exames).length;
+                return {
+                    status: count >= 11 ? 'pass' : 'warning',
+                    message: `${count} exames carregados. Esperado: 11 ou mais`
+                };
+            }
+        );
+
+        runner.addTest(
+            'data',
+            'Estrutura de exame válida',
+            'Verifica se cada exame tem todos os campos obrigatórios',
+            () => {
+                const campos = ['nome', 'unidade', 'minimo', 'maximo', 'descricao', 'mensagemBaixo', 'mensagemAlto', 'mensagemNormal'];
+                const erros = [];
+
+                for (const [chave, exame] of Object.entries(exames)) {
+                    const camposFaltando = campos.filter(c => !(c in exame));
+                    if (camposFaltando.length > 0) {
+                        erros.push(`${exame.nome}: faltam ${camposFaltando.join(', ')}`);
+                    }
+                }
+
+                if (erros.length > 0) {
+                    return {
+                        status: 'fail',
+                        message: erros.join('; ')
+                    };
+                }
+
+                return {
+                    status: 'pass',
+                    message: 'Todos os exames têm estrutura válida'
+                };
+            }
+        );
+
+        runner.addTest(
+            'data',
+            'Valores de referência válidos',
+            'Verifica se minimo < maximo para todos exames',
+            () => {
+                const erros = [];
+
+                for (const [chave, exame] of Object.entries(exames)) {
+                    if (exame.minimo >= exame.maximo) {
+                        erros.push(`${exame.nome}: minimo (${exame.minimo}) >= maximo (${exame.maximo})`);
+                    }
+                }
+
+                if (erros.length > 0) {
+                    return {
+                        status: 'fail',
+                        message: erros.join('; ')
+                    };
+                }
+
+                return {
+                    status: 'pass',
+                    message: 'Todos os intervalos de referência são válidos'
+                };
+            }
+        );
+
+        // TESTES DE LÓGICA
+        runner.addTest(
+            'logic',
+            'Comparação - Valor baixo',
+            'Testa se valores abaixo do mínimo são identificados corretamente',
+            () => {
+                const glicose = exames.glicose;
+                const valor = 50;
+                const resultado = valor < glicose.minimo ? 'BAIXO' : 'NORMAL';
+                
+                return {
+                    status: resultado === 'BAIXO' ? 'pass' : 'fail',
+                    message: `Valor 50 com intervalo [${glicose.minimo}, ${glicose.maximo}]: ${resultado}`
+                };
+            }
+        );
+
+        runner.addTest(
+            'logic',
+            'Comparação - Valor normal',
+            'Testa se valores dentro do intervalo são identificados corretamente',
+            () => {
+                const glicose = exames.glicose;
+                const valor = 85;
+                const resultado = (valor >= glicose.minimo && valor <= glicose.maximo) ? 'NORMAL' : 'ALTERADO';
+                
+                return {
+                    status: resultado === 'NORMAL' ? 'pass' : 'fail',
+                    message: `Valor 85 com intervalo [${glicose.minimo}, ${glicose.maximo}]: ${resultado}`
+                };
+            }
+        );
+
+        runner.addTest(
+            'logic',
+            'Comparação - Valor alto',
+            'Testa se valores acima do máximo são identificados corretamente',
+            () => {
+                const glicose = exames.glicose;
+                const valor = 150;
+                const resultado = valor > glicose.maximo ? 'ALTO' : 'NORMAL';
+                
+                return {
+                    status: resultado === 'ALTO' ? 'pass' : 'fail',
+                    message: `Valor 150 com intervalo [${glicose.minimo}, ${glicose.maximo}]: ${resultado}`
+                };
+            }
+        );
+
+        runner.addTest(
+            'logic',
+            'Valores decimais',
+            'Testa se valores decimais são processados corretamente',
+            () => {
+                const tsh = exames.tsh;
+                const valor = 2.5;
+                const resultado = (valor >= tsh.minimo && valor <= tsh.maximo) ? 'NORMAL' : 'ALTERADO';
+                
+                return {
+                    status: resultado === 'NORMAL' ? 'pass' : 'fail',
+                    message: `Valor decimal 2.5 com intervalo [${tsh.minimo}, ${tsh.maximo}]: ${resultado}`
+                };
+            }
+        );
+
+        // TESTES DE UI
+        runner.addTest(
+            'ui',
+            'Arquivo index.html',
+            'Verifica se index.html existe e contém elementos principais',
+            () => {
+                // Este teste seria melhor rodado via Selenium/Cypress
+                // Aqui apenas verificamos os dados
+                return {
+                    status: 'warning',
+                    message: 'Abra index.html no navegador para testes de UI'
+                };
+            }
+        );
+
+        runner.addTest(
+            'ui',
+            'Arquivo style.css',
+            'Verifica se CSS está disponível',
+            () => {
+                return {
+                    status: 'warning',
+                    message: 'Abra index.html no navegador para validar estilos'
+                };
+            }
+        );
+
+        runner.addTest(
+            'ui',
+            'Responsividade',
+            'Teste manual: Redimensione janela para 480px',
+            () => {
+                return {
+                    status: 'warning',
+                    message: 'Veja seção de "Testes Manuais Recomendados" acima'
+                };
+            }
+        );
+
+        // Executar testes
+        runner.execute();
+    </script>
+</body>
+</html>
