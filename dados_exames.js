@@ -61,11 +61,15 @@ const exames = {
         nome: "HDL (Colesterol Bom)",
         unidade: "mg/dL",
         minimo: 40,
-        maximo: 300,
+        maximo: 60,
         descricao: "O HDL é o 'colesterol bom' que ajuda a remover colesterol das artérias.",
         mensagemBaixo: "HDL baixo aumenta o risco de doenças cardíacas.",
-        mensagemAlto: "HDL elevado é protetor para o coração. Ótimo!",
-        mensagemNormal: "Seu HDL está em bom nível. Continue com hábitos saudáveis!"
+        mensagemAlto: "HDL muito elevado pode estar associado a problemas de saúde. Procure avaliação médica.",
+        mensagemMuitoAlto: "HDL extremamente elevado pode ser prejudicial. Consulte um profissional de saúde.",
+        mensagemNormal: "Seu HDL está em bom nível. Continue com hábitos saudáveis!",
+        limites: {
+            muitoAlto: 90
+        }
     },
 
     ldl: {

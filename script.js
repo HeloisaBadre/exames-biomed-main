@@ -6,6 +6,7 @@ const analisarBtn = document.getElementById('analisar-btn');
 const resultadoSection = document.getElementById('resultado-section');
 const infoExameSection = document.getElementById('info-exame-section');
 const novoTesteBtn = document.getElementById('novo-teste-btn');
+const darkModeToggle = document.getElementById('dark-mode-toggle');
 
 // Variável para armazenar o exame selecionado
 let exameSelecionado = null;
@@ -14,7 +15,25 @@ let exameSelecionado = null;
 document.addEventListener('DOMContentLoaded', () => {
     preencherSelectExames();
     adicionarEventListeners();
+    inicializarDarkMode();
 });
+
+// Inicializar Dark Mode
+function inicializarDarkMode() {
+    const darkModeAtivo = localStorage.getItem('darkMode') === 'ativo';
+    if (darkModeAtivo) {
+        document.body.classList.add('dark-mode');
+    }
+    
+    darkModeToggle.addEventListener('click', alternarDarkMode);
+}
+
+// Alternar Dark Mode
+function alternarDarkMode() {
+    document.body.classList.toggle('dark-mode');
+    const darkModeAtivo = document.body.classList.contains('dark-mode');
+    localStorage.setItem('darkMode', darkModeAtivo ? 'ativo' : 'inativo');
+}
 
 // Preencher o select com os exames
 function preencherSelectExames() {
@@ -96,15 +115,28 @@ function analisarResultado() {
         return;
     }
     
-    // Determinar resultado
+    // Determinar resultado com categorias expandidas
     let status = '';
     let statusClass = '';
     let mensagem = '';
     
-    if (valor < exameSelecionado.minimo) {
+    // Verificar se há limites de "muito alto" e "muito baixo"
+    const limites = exameSelecionado.limites || {};
+    const muitoBaixo = limites.muitoBaixo;
+    const muitoAlto = limites.muitoAlto;
+    
+    if (muitoBaixo !== undefined && valor < muitoBaixo) {
+        status = 'MUITO BAIXO';
+        statusClass = 'muito-baixo';
+        mensagem = exameSelecionado.mensagemMuitoBaixo || exameSelecionado.mensagemBaixo;
+    } else if (valor < exameSelecionado.minimo) {
         status = 'BAIXO';
         statusClass = 'baixo';
         mensagem = exameSelecionado.mensagemBaixo;
+    } else if (muitoAlto !== undefined && valor > muitoAlto) {
+        status = 'MUITO ALTO';
+        statusClass = 'muito-alto';
+        mensagem = exameSelecionado.mensagemMuitoAlto || exameSelecionado.mensagemAlto;
     } else if (valor > exameSelecionado.maximo) {
         status = 'ALTO';
         statusClass = 'alto';
@@ -142,6 +174,10 @@ function exibirResultado(valor, status, statusClass, mensagem) {
             <strong>Recomendação:</strong> Procure um profissional de saúde para avaliação completa e adequada.
         </p>
     `;
+    
+    // Mudar cor da página de acordo com o status
+    document.body.className = document.body.className.replace(/resultado-(muito-)?[a-z]+/g, '').trim();
+    document.body.classList.add(`resultado-${statusClass}`);
     
     // Desenhar gráfico
     desenharGraficoResultado(valor, statusClass);
@@ -192,14 +228,11 @@ function desenharGraficoResultado(valor, statusClass) {
     labelsDiv.className = 'escala-labels-posicao';
     labelsDiv.innerHTML = `
         <div class="label-escala">
-            <div class="label-texto">Baixo</div>
             <span class="label-valor-numerico">${exameSelecionado.minimo}</span>
         </div>
         <div class="label-escala">
-            <div class="label-texto"></div>
         </div>
         <div class="label-escala">
-            <div class="label-texto">Alto</div>
             <span class="label-valor-numerico">${exameSelecionado.maximo}</span>
         </div>
     `;
@@ -216,5 +249,6 @@ function resetarFormulario() {
     exameSelecionado = null;
     resultadoSection.classList.add('hidden');
     infoExameSection.classList.add('hidden');
+    document.body.className = document.body.className.replace(/resultado-(muito-)?[a-z]+/g, '').trim();
     exameSelect.focus();
 }
