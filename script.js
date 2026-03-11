@@ -228,11 +228,13 @@ function desenharGraficoResultado(valor, statusClass) {
     labelsDiv.className = 'escala-labels-posicao';
     labelsDiv.innerHTML = `
         <div class="label-escala">
+            <div class="label-texto">Baixo</div>
             <span class="label-valor-numerico">${exameSelecionado.minimo}</span>
         </div>
         <div class="label-escala">
         </div>
         <div class="label-escala">
+            <div class="label-texto">Alto</div>
             <span class="label-valor-numerico">${exameSelecionado.maximo}</span>
         </div>
     `;
