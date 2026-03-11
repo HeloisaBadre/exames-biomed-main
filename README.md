@@ -1,24 +1,24 @@
-# 🔬 Interpretador de Exames Laboratoriais
+# Interpretador de Exames Laboratoriais
 
-Um site educativo que permite interpretar valores de exames laboratoriais de forma simples e intuitiva.
+Site que permite interpretar valores de exames de laboratório de forma simples e intuitiva.
 
-## 📋 Descrição
+##  Descrição
 
 Este projeto foi desenvolvido para ajudar pessoas a entender melhor seus resultados de exames laboratoriais, comparando valores com intervalos de referência padrão.
 
 **Importante:** Este site possui **caráter educativo e informativo**. Ele **NÃO substitui** avaliação médica ou diagnóstico profissional.
 
-## ✨ Funcionalidades
+##  Funcionalidades
 
-- ✅ Seleção de diversos exames laboratoriais
-- 📊 Comparação automática com valores de referência
-- 📈 Gráfico visual da posição do resultado no intervalo
-- 📱 Interface responsiva (funciona em celular)
-- 🎨 Design moderno e intuitivo
-- ⚠️ Avisos médicos em destaque
-- 💡 Informações educativas sobre cada exame
+-  Seleção de diversos exames laboratoriais
+-  Comparação automática com valores de referência
+-  Gráfico visual da posição do resultado no intervalo
+-  Interface responsiva (funciona em celular)
+-  Design moderno e intuitivo
+-  Avisos médicos em destaque
+-  Informações educativas sobre cada exame
 
-## 🩺 Exames Disponíveis
+##  Exames Disponíveis
 
 ### Hemograma
 - Hemoglobina
@@ -37,7 +37,7 @@ Este projeto foi desenvolvido para ajudar pessoas a entender melhor seus resulta
 - Creatinina
 - Ureia
 
-## 🚀 Como Usar
+##  Como Usar
 
 1. **Abra o arquivo `index.html`** em seu navegador
 2. **Selecione um exame** na lista dropdown
@@ -46,7 +46,7 @@ Este projeto foi desenvolvido para ajudar pessoas a entender melhor seus resulta
 5. Veja a interpretação com gráfico visual
 6. Consulte a mensagem de recomendação
 
-## 🛠️ Tecnologias
+##  Tecnologias
 
 - **HTML5** - Estrutura da página
 - **CSS3** - Design e layout responsivo
@@ -54,7 +54,7 @@ Este projeto foi desenvolvido para ajudar pessoas a entender melhor seus resulta
 
 Sem dependências externas! Tudo funciona diretamente no navegador.
 
-## 📁 Estrutura de Arquivos
+##  Estrutura de Arquivos
 
 ```
 ├── index.html          # Estrutura da página
@@ -64,7 +64,7 @@ Sem dependências externas! Tudo funciona diretamente no navegador.
 └── README.md           # Este arquivo
 ```
 
-## 📖 Estrutura de Dados
+##  Estrutura de Dados
 
 Cada exame contém:
 
@@ -81,7 +81,7 @@ Cada exame contém:
 }
 ```
 
-## ➕ Como Adicionar Novos Exames
+##  Como Adicionar Novos Exames
 
 Edite o arquivo `dados_exames.js` e adicione um novo objeto ao dicionário `exames`:
 
@@ -102,7 +102,7 @@ const exames = {
 };
 ```
 
-## 🎨 Personalização
+##  Personalização
 
 ### Cores
 As cores principais podem ser alteradas em `style.css` nas variáveis CSS:
@@ -119,24 +119,18 @@ As cores principais podem ser alteradas em `style.css` nas variáveis CSS:
 ### Intervalos de Referência
 Altere os valores `minimo` e `maximo` em `dados_exames.js` para adequar aos seus padrões de referência.
 
-## 📱 Responsividade
 
-O site funciona perfeitamente em:
-- 💻 Desktop
-- 📱 Tablets
-- 📲 Smartphones
-
-## ⚠️ Aviso Importante
+## Aviso Importante
 
 Este sistema é **apenas informativo**. Ele:
 
-- ❌ **NÃO** realiza diagnóstico médico
-- ❌ **NÃO** substitui avaliação profissional
-- ❌ **NÃO** deve ser usado como base para tratamento
+-  **NÃO** realiza diagnóstico médico
+-  **NÃO** substitui avaliação profissional
+-  **NÃO** deve ser usado como base para tratamento
 
 Sempre consulte um profissional de saúde para interpretação completa dos seus exames.
 
-## 🔄 Fluxo da Aplicação
+##  Fluxo da Aplicação
 
 1. Usuário seleciona exame → Sistema carrega informações do exame
 2. Usuário digita valor → Sistema ativa botão de análise
@@ -147,49 +141,18 @@ Sempre consulte um profissional de saúde para interpretação completa dos seus
    - Mensagem explicativa
    - Recomendação de consulta médica
 
-## 📊 Interpretação dos Resultados
+##  Interpretação dos Resultados
 
-### Resultado NORMAL ✅
+### Resultado NORMAL 
 - Valor está dentro do intervalo de referência
 - Mensagem informativa tranquilizadora
 
-### Resultado ALTO ⚠️
+### Resultado ALTO 
 - Valor está acima do máximo
 - Mensagem explicativa sobre a elevação
 - Recomendação de avaliação médica
 
-### Resultado BAIXO ⚠️
+### Resultado BAIXO 
 - Valor está abaixo do mínimo
 - Mensagem explicativa sobre a redução
 - Recomendação de avaliação médica
-
-## 🚀 Melhorias Futuras
-
-- [ ] Histórico de exames (localStorage)
-- [ ] Comparação entre múltiplos exames
-- [ ] Exportar resultado em PDF
-- [ ] Múltiplos idiomas
-- [ ] Gráfico de tendência (vários testes)
-- [ ] Backend para salvar histórico de usuários
-
-## 📄 Licença
-
-Este projeto é de código aberto e pode ser utilizado livremente para fins educacionais.
-
-## 🤝 Contribuições
-
-Sinta-se livre para:
-- Adicionar novos exames
-- Melhorar a interface
-- Corrigir informações médicas
-- Sugerir novos idiomas
-
-## 📞 Suporte
-
-Se encontrar algum problema ou tiver sugestões, entre em contato com o desenvolvedor.
-
----
-
-**Desenvolvido com ❤️ para educação em saúde**
-
-*Última atualização: Março 2026*
