@@ -1,19 +1,20 @@
 // Elementos do DOM
-const exameSelect = document.getElementById('exame-select');
-const valorInput = document.getElementById('valor-input');
-const unidadeDisplay = document.getElementById('unidade-display');
-const analisarBtn = document.getElementById('analisar-btn');
+const sexoSelect = document.getElementById('sexo-select');
+const tipoExameSelect = document.getElementById('tipo-exame-select');
+const camposExamesContainer = document.getElementById('campos-exames-container');
+const testarBtn = document.getElementById('testar-btn');
 const resultadoSection = document.getElementById('resultado-section');
-const infoExameSection = document.getElementById('info-exame-section');
+const resultadosContainer = document.getElementById('resultados-container');
 const novoTesteBtn = document.getElementById('novo-teste-btn');
 const darkModeToggle = document.getElementById('dark-mode-toggle');
 
-// Variável para armazenar o exame selecionado
-let exameSelecionado = null;
+// Variáveis de estado
+let sexoSelecionado = '';
+let tipoExameSelecionado = '';
+let valoresExames = {};
 
 // Inicializar
 document.addEventListener('DOMContentLoaded', () => {
-    preencherSelectExames();
     adicionarEventListeners();
     inicializarDarkMode();
 });
@@ -35,222 +36,296 @@ function alternarDarkMode() {
     localStorage.setItem('darkMode', darkModeAtivo ? 'ativo' : 'inativo');
 }
 
-// Preencher o select com os exames
-function preencherSelectExames() {
-    examesOrdenados.forEach(chaveExame => {
-        const exame = exames[chaveExame];
-        const option = document.createElement('option');
-        option.value = chaveExame;
-        option.textContent = exame.nome;
-        exameSelect.appendChild(option);
-    });
-}
-
 // Adicionar event listeners
 function adicionarEventListeners() {
-    exameSelect.addEventListener('change', selecionarExame);
-    valorInput.addEventListener('input', validarCampos);
-    valorInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter' && !analisarBtn.disabled) {
-            analisarResultado();
-        }
-    });
-    analisarBtn.addEventListener('click', analisarResultado);
+    sexoSelect.addEventListener('change', aoSelecionarSexo);
+    tipoExameSelect.addEventListener('change', aoSelecionarTipoExame);
+    testarBtn.addEventListener('click', analisarTodosExames);
     novoTesteBtn.addEventListener('click', resetarFormulario);
 }
 
-// Quando um exame é selecionado
-function selecionarExame() {
-    const chaveExame = exameSelect.value;
+// Quando sexo é selecionado
+function aoSelecionarSexo() {
+    sexoSelecionado = sexoSelect.value;
     
-    if (!chaveExame) {
-        exameSelecionado = null;
-        valorInput.disabled = true;
-        valorInput.value = '';
-        unidadeDisplay.textContent = '';
-        analisarBtn.disabled = true;
-        infoExameSection.classList.add('hidden');
+    if (!sexoSelecionado) {
+        tipoExameSelect.disabled = true;
+        tipoExameSelect.value = '';
+        camposExamesContainer.classList.add('hidden');
+        camposExamesContainer.innerHTML = '';
+        testarBtn.disabled = true;
         return;
     }
     
-    exameSelecionado = exames[chaveExame];
-    valorInput.disabled = false;
-    valorInput.value = '';
-    valorInput.focus();
-    unidadeDisplay.textContent = exameSelecionado.unidade;
-    
-    // Mostrar informações sobre o exame
-    mostrarInfoExame();
-    
-    validarCampos();
+    tipoExameSelect.disabled = false;
+    tipoExameSelect.focus();
 }
 
-// Mostrar informações sobre o exame selecionado
-function mostrarInfoExame() {
-    if (!exameSelecionado) return;
+// Quando tipo de exame é selecionado
+function aoSelecionarTipoExame() {
+    tipoExameSelecionado = tipoExameSelect.value;
+    valoresExames = {};
     
-    document.getElementById('info-titulo').textContent = `Sobre: ${exameSelecionado.nome}`;
-    document.getElementById('info-descricao').textContent = exameSelecionado.descricao;
-    infoExameSection.classList.remove('hidden');
-}
-
-// Validar se campos estão preenchidos
-function validarCampos() {
-    const temExame = exameSelect.value !== '';
-    const temValor = valorInput.value.trim() !== '';
-    
-    analisarBtn.disabled = !(temExame && temValor);
-}
-
-// Analisar o resultado
-function analisarResultado() {
-    if (!exameSelecionado) return;
-    
-    const valor = parseFloat(valorInput.value);
-    
-    // Validar valor
-    if (isNaN(valor)) {
-        alert('Por favor, digite um valor numérico válido.');
-        valorInput.focus();
+    if (!tipoExameSelecionado) {
+        camposExamesContainer.classList.add('hidden');
+        camposExamesContainer.innerHTML = '';
+        testarBtn.disabled = true;
         return;
     }
     
-    // Determinar resultado com categorias expandidas
+    // Preencher campos de exame
+    preencherCamposExame();
+    camposExamesContainer.classList.remove('hidden');
+    testarBtn.disabled = false;
+}
+
+// Preencher campos de input para cada exame do tipo selecionado
+function preencherCamposExame() {
+    camposExamesContainer.innerHTML = '';
+    
+    const tipoExame = tiposExames[tipoExameSelecionado];
+    if (!tipoExame) return;
+    
+    const exames = tipoExame.exames;
+    
+    Object.keys(exames).forEach(chaveExame => {
+        const exame = exames[chaveExame];
+        
+        const div = document.createElement('div');
+        div.className = 'form-group';
+        
+        const label = document.createElement('label');
+        label.htmlFor = `exame-${chaveExame}`;
+        label.textContent = exame.nome;
+        
+        const inputContainer = document.createElement('div');
+        inputContainer.className = 'input-group';
+        
+        const input = document.createElement('input');
+        input.type = 'number';
+        input.id = `exame-${chaveExame}`;
+        input.className = 'campo-exame';
+        input.placeholder = `Ex: 100`;
+        input.step = '0.01';
+        input.dataset.chave = chaveExame;
+        input.dataset.exame = JSON.stringify(exame);
+        input.addEventListener('input', () => {
+            valoresExames[chaveExame] = input.value;
+        });
+        
+        const unidade = document.createElement('span');
+        unidade.className = 'unidade';
+        unidade.textContent = exame.unidade;
+        
+        inputContainer.appendChild(input);
+        inputContainer.appendChild(unidade);
+        
+        div.appendChild(label);
+        div.appendChild(inputContainer);
+        camposExamesContainer.appendChild(div);
+    });
+}
+
+// Analisar todos os exames do tipo selecionado
+function analisarTodosExames() {
+    if (!sexoSelecionado || !tipoExameSelecionado) {
+        alert('Por favor, selecione sexo e tipo de exame.');
+        return;
+    }
+    
+    const tipoExame = tiposExames[tipoExameSelecionado];
+    const exames = tipoExame.exames;
+    const resultados = [];
+    
+    let todosPreenchidos = true;
+    
+    Object.keys(exames).forEach(chaveExame => {
+        const input = document.getElementById(`exame-${chaveExame}`);
+        const valor = parseFloat(input.value);
+        
+        if (isNaN(valor) || input.value.trim() === '') {
+            todosPreenchidos = false;
+            return;
+        }
+        
+        const exame = exames[chaveExame];
+        const resultado = analisarExame(chaveExame, valor, exame);
+        resultados.push(resultado);
+    });
+    
+    if (!todosPreenchidos) {
+        alert('Por favor, preencha todos os valores dos exames.');
+        return;
+    }
+    
+    // Exibir resultados
+    exibirTodosResultados(resultados);
+}
+
+// Analisar um exame específico
+function analisarExame(chaveExame, valor, exame) {
+    let muitoBaixo, baixo, minimo, maximo, alto, muitoAlto;
+    
+    // Aplicar valores sexo-dependentes se necessário
+    if (exame.sexoDependente) {
+        muitoBaixo = exame[`muitoBaixo_${sexoSelecionado}`];
+        baixo = exame[`baixo_${sexoSelecionado}`];
+        minimo = exame[`minimo_${sexoSelecionado}`];
+        maximo = exame[`maximo_${sexoSelecionado}`];
+        alto = exame[`alto_${sexoSelecionado}`];
+        muitoAlto = exame[`muitoAlto_${sexoSelecionado}`];
+    } else {
+        muitoBaixo = exame.muitoBaixo;
+        baixo = exame.baixo;
+        minimo = exame.minimo;
+        maximo = exame.maximo;
+        alto = exame.alto;
+        muitoAlto = exame.muitoAlto;
+    }
+    
+    // Determinar status com base nas 5 categorias
     let status = '';
     let statusClass = '';
     let mensagem = '';
     
-    // Verificar se há limites de "muito alto" e "muito baixo"
-    const limites = exameSelecionado.limites || {};
-    const muitoBaixo = limites.muitoBaixo;
-    const muitoAlto = limites.muitoAlto;
-    
     if (muitoBaixo !== undefined && valor < muitoBaixo) {
         status = 'MUITO BAIXO';
         statusClass = 'muito-baixo';
-        mensagem = exameSelecionado.mensagemMuitoBaixo || exameSelecionado.mensagemBaixo;
-    } else if (valor < exameSelecionado.minimo) {
+        mensagem = exame.mensagemMuitoBaixo || exame.mensagemBaixo;
+    } else if (baixo !== undefined && valor < baixo) {
         status = 'BAIXO';
         statusClass = 'baixo';
-        mensagem = exameSelecionado.mensagemBaixo;
+        mensagem = exame.mensagemBaixo;
+    } else if (valor < minimo) {
+        status = 'BAIXO';
+        statusClass = 'baixo';
+        mensagem = exame.mensagemBaixo;
     } else if (muitoAlto !== undefined && valor > muitoAlto) {
         status = 'MUITO ALTO';
         statusClass = 'muito-alto';
-        mensagem = exameSelecionado.mensagemMuitoAlto || exameSelecionado.mensagemAlto;
-    } else if (valor > exameSelecionado.maximo) {
+        mensagem = exame.mensagemMuitoAlto || exame.mensagemAlto;
+    } else if (alto !== undefined && valor > alto) {
         status = 'ALTO';
         statusClass = 'alto';
-        mensagem = exameSelecionado.mensagemAlto;
+        mensagem = exame.mensagemAlto;
+    } else if (valor > maximo) {
+        status = 'ALTO';
+        statusClass = 'alto';
+        mensagem = exame.mensagemAlto;
     } else {
         status = 'NORMAL';
         statusClass = 'normal';
-        mensagem = exameSelecionado.mensagemNormal;
+        mensagem = exame.mensagemNormal;
     }
     
-    // Exibir resultado
-    exibirResultado(valor, status, statusClass, mensagem);
+    return {
+        chaveExame,
+        nome: exame.nome,
+        valor,
+        unidade: exame.unidade,
+        minimo,
+        maximo,
+        status,
+        statusClass,
+        mensagem,
+        descricao: exame.descricao
+    };
 }
 
-// Exibir resultado na página
-function exibirResultado(valor, status, statusClass, mensagem) {
-    // Atualizar status visual
-    const resultadoStatus = document.getElementById('resultado-status');
+// Exibir todos os resultados
+function exibirTodosResultados(resultados) {
+    resultadosContainer.innerHTML = '';
     
-    resultadoStatus.textContent = `Resultado: ${status}`;
-    resultadoStatus.className = `resultado-status ${statusClass}`;
-    
-    // Atualizar informações
-    document.getElementById('resultado-exame').textContent = exameSelecionado.nome;
-    document.getElementById('resultado-valor').textContent = 
-        `${valor} ${exameSelecionado.unidade}`;
-    document.getElementById('resultado-intervalo').textContent = 
-        `${exameSelecionado.minimo} - ${exameSelecionado.maximo} ${exameSelecionado.unidade}`;
-    
-    // Atualizar mensagem
-    const resultadoMensagem = document.getElementById('resultado-mensagem');
-    resultadoMensagem.innerHTML = `
-        <p>${mensagem}</p>
-        <p class="recomendacao">
-            <strong>Recomendação:</strong> Procure um profissional de saúde para avaliação completa e adequada.
-        </p>
-    `;
-    
-    // Mudar cor da página de acordo com o status
-    document.body.className = document.body.className.replace(/resultado-(muito-)?[a-z]+/g, '').trim();
-    document.body.classList.add(`resultado-${statusClass}`);
-    
-    // Desenhar gráfico
-    desenharGraficoResultado(valor, statusClass);
+    resultados.forEach(resultado => {
+        const card = document.createElement('div');
+        card.className = `resultado-card ${resultado.statusClass}`;
+        
+        const statusDiv = document.createElement('div');
+        statusDiv.className = `resultado-status ${resultado.statusClass}`;
+        statusDiv.textContent = `Resultado: ${resultado.status}`;
+        
+        const titulo = document.createElement('h2');
+        titulo.className = 'resultado-titulo';
+        titulo.textContent = resultado.nome;
+        
+        const info = document.createElement('div');
+        info.className = 'resultado-info';
+        info.innerHTML = `
+            <p><strong>Seu valor:</strong> <span>${resultado.valor} ${resultado.unidade}</span></p>
+            <p><strong>Intervalo de referência:</strong> <span>${resultado.minimo} - ${resultado.maximo} ${resultado.unidade}</span></p>
+        `;
+        
+        const grafico = document.createElement('div');
+        grafico.className = 'resultado-grafico';
+        grafico.innerHTML = criarGraficoHTML(resultado);
+        
+        const mensagem = document.createElement('div');
+        mensagem.className = 'resultado-mensagem';
+        mensagem.innerHTML = `
+            <p>${resultado.mensagem}</p>
+            <p class="recomendacao">
+                <strong>Recomendação:</strong> Procure um profissional de saúde para avaliação completa e adequada.
+            </p>
+        `;
+        
+        card.appendChild(statusDiv);
+        card.appendChild(titulo);
+        card.appendChild(info);
+        card.appendChild(grafico);
+        card.appendChild(mensagem);
+        resultadosContainer.appendChild(card);
+    });
     
     // Mostrar seção de resultado
     resultadoSection.classList.remove('hidden');
     resultadoSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    
+    // Remover classes de resultado anterior do body
+    document.body.className = document.body.className.replace(/resultado-(muito-)?[a-z]+/g, '').trim();
 }
 
-// Desenhar gráfico de posição do resultado
-function desenharGraficoResultado(valor, statusClass) {
-    const posicaoValorDiv = document.getElementById('posicao-valor');
-    
-    // Calcular percentual de posição
-    const range = exameSelecionado.maximo - exameSelecionado.minimo;
-    const posicaoAbs = valor - exameSelecionado.minimo;
+// Criar HTML do gráfico para um resultado
+function criarGraficoHTML(resultado) {
+    const range = resultado.maximo - resultado.minimo;
+    const posicaoAbs = resultado.valor - resultado.minimo;
     const percentual = Math.min(100, Math.max(0, (posicaoAbs / range) * 100));
     
-    // Limpar e recriar o gráfico
-    posicaoValorDiv.innerHTML = '';
-    
-    // Label do valor do usuário (topo)
-    const labelValor = document.createElement('div');
-    labelValor.className = 'label-valor';
-    labelValor.textContent = `Seu valor: ${valor}`;
-    posicaoValorDiv.appendChild(labelValor);
-    
-    // Barra de progresso
-    const barraProgresso = document.createElement('div');
-    barraProgresso.className = 'barra-progresso';
-    posicaoValorDiv.appendChild(barraProgresso);
-    
-    // Preenchimento até o valor
-    const preenchimento = document.createElement('div');
-    preenchimento.className = `preenchimento ${statusClass}`;
-    preenchimento.style.width = percentual + '%';
-    barraProgresso.appendChild(preenchimento);
-    
-    // Marcador de posição
-    const marcador = document.createElement('div');
-    marcador.className = `marcador-posicao ${statusClass}`;
-    marcador.style.left = percentual + '%';
-    marcador.innerHTML = '▼';
-    posicaoValorDiv.appendChild(marcador);
-    
-    // Labels da escala (embaixo)
-    const labelsDiv = document.createElement('div');
-    labelsDiv.className = 'escala-labels-posicao';
-    labelsDiv.innerHTML = `
-        <div class="label-escala">
-            <div class="label-texto">Baixo</div>
-            <span class="label-valor-numerico">${exameSelecionado.minimo}</span>
-        </div>
-        <div class="label-escala">
-        </div>
-        <div class="label-escala">
-            <div class="label-texto">Alto</div>
-            <span class="label-valor-numerico">${exameSelecionado.maximo}</span>
+    return `
+        <div class="grafico-exame">
+            <div class="grafico-label">Seu valor: ${resultado.valor} ${resultado.unidade}</div>
+            <div class="grafico-barra-container">
+                <div class="grafico-barra-background">
+                    <div class="grafico-barra-preenchimento ${resultado.statusClass}" style="width: ${percentual}%"></div>
+                </div>
+                <div class="grafico-marcador ${resultado.statusClass}" style="left: ${percentual}%">▼</div>
+            </div>
+            <div class="grafico-labels-escala">
+                <div class="grafico-label-min">
+                    <span class="grafico-label-texto">Min</span>
+                    <span class="grafico-valor">${resultado.minimo}</span>
+                </div>
+                <div class="grafico-label-max">
+                    <span class="grafico-label-texto">Max</span>
+                    <span class="grafico-valor">${resultado.maximo}</span>
+                </div>
+            </div>
         </div>
     `;
-    posicaoValorDiv.appendChild(labelsDiv);
 }
 
 // Resetar formulário
 function resetarFormulario() {
-    exameSelect.value = '';
-    valorInput.value = '';
-    valorInput.disabled = true;
-    unidadeDisplay.textContent = '';
-    analisarBtn.disabled = true;
-    exameSelecionado = null;
+    sexoSelect.value = '';
+    tipoExameSelect.value = '';
+    tipoExameSelect.disabled = true;
+    camposExamesContainer.innerHTML = '';
+    camposExamesContainer.classList.add('hidden');
+    testarBtn.disabled = true;
     resultadoSection.classList.add('hidden');
-    infoExameSection.classList.add('hidden');
+    resultadosContainer.innerHTML = '';
+    valoresExames = {};
+    sexoSelecionado = '';
+    tipoExameSelecionado = '';
     document.body.className = document.body.className.replace(/resultado-(muito-)?[a-z]+/g, '').trim();
-    exameSelect.focus();
+    sexoSelect.focus();
 }

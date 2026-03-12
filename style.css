@@ -86,6 +86,16 @@ body.dark-mode .label-valor {
     color: #e0e0e0;
 }
 
+body.dark-mode .grafico-label {
+    background-color: #262626;
+    border-color: #3d3d3d;
+    color: #e0e0e0;
+}
+
+body.dark-mode .grafico-barra-background {
+    background-color: #2d2d2d;
+}
+
 body.dark-mode .resultado-mensagem {
     background: #0f0f0f;
 }
@@ -394,6 +404,56 @@ input[type="number"]:disabled {
     opacity: 0.6;
 }
 
+/* CONTAINER DE CAMPOS EXAMES */
+.campos-exames-container {
+    background: var(--cor-background);
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    border: 2px solid var(--cor-borda);
+}
+
+.campos-exames-container.hidden {
+    display: none;
+}
+
+.campo-exame {
+    width: 100%;
+    padding: 10px 12px;
+    border: 2px solid var(--cor-borda);
+    border-radius: 6px;
+    font-size: 0.95rem;
+    background-color: var(--cor-card);
+    color: var(--cor-texto);
+    transition: var(--transicao);
+    font-family: 'Datatype', monospace, -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+}
+
+.campo-exame:focus {
+    outline: none;
+    border-color: var(--cor-primaria);
+    box-shadow: 0 0 0 3px rgba(30, 136, 229, 0.1);
+}
+
+body.dark-mode .campos-exames-container {
+    background: #0f0f0f;
+    border-color: #3d3d3d;
+}
+
+body.dark-mode .campo-exame {
+    background-color: #262626;
+    color: #e0e0e0;
+    border-color: #3d3d3d;
+}
+
+/* CONTAINER DE RESULTADOS */
+.resultados-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
 /* SEÇÃO DE INFORMAÇÕES SOBRE O EXAME */
 .info-exame-section {
     margin-bottom: 40px;
@@ -544,124 +604,125 @@ input[type="number"]:disabled {
     border-radius: 8px;
 }
 
+/* Novo gráfico simplificado */
+.grafico-exame {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.grafico-label {
+    font-weight: 600;
+    color: var(--cor-texto);
+    padding: 10px 15px;
+    background-color: var(--cor-card);
+    border-radius: 6px;
+    border: 1px solid var(--cor-borda);
+    text-align: center;
+    font-size: 0.95rem;
+}
+
+.grafico-barra-container {
+    position: relative;
+    height: 45px;
+    display: flex;
+    align-items: center;
+}
+
+.grafico-barra-background {
+    width: 100%;
+    height: 20px;
+    background-color: #e0e0e0;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.grafico-barra-preenchimento {
+    height: 100%;
+    transition: width 0.5s ease;
+    border-radius: 10px;
+}
+
+.grafico-barra-preenchimento.normal {
+    background: linear-gradient(90deg, var(--cor-normal), #66bb6a);
+}
+
+.grafico-barra-preenchimento.alto {
+    background: linear-gradient(90deg, var(--cor-alto), #ee1414);
+}
+
+.grafico-barra-preenchimento.muito-alto {
+    background: linear-gradient(90deg, var(--cor-muito-alto), #6a0c3b);
+}
+
+.grafico-barra-preenchimento.baixo {
+    background: linear-gradient(90deg, var(--cor-baixo), #ffb300);
+}
+
+.grafico-barra-preenchimento.muito-baixo {
+    background: linear-gradient(90deg, var(--cor-muito-baixo), #e65100);
+}
+
+.grafico-marcador {
+    position: absolute;
+    top: -8px;
+    font-size: 1.5rem;
+    transform: translateX(-50%);
+    z-index: 10;
+    transition: left 0.5s ease;
+}
+
+.grafico-marcador.normal {
+    color: var(--cor-normal);
+}
+
+.grafico-marcador.alto {
+    color: var(--cor-alto);
+}
+
+.grafico-marcador.muito-alto {
+    color: var(--cor-muito-alto);
+}
+
+.grafico-marcador.baixo {
+    color: var(--cor-baixo);
+}
+
+.grafico-marcador.muito-baixo {
+    color: var(--cor-muito-baixo);
+}
+
+.grafico-labels-escala {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    color: var(--cor-texto-secundario);
+    padding: 0 5px;
+}
+
+.grafico-label-min,
+.grafico-label-max {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
+.grafico-label-texto {
+    font-weight: 600;
+    color: var(--cor-texto);
+}
+
+.grafico-valor {
+    color: var(--cor-texto-secundario);
+}
+
 #posicao-valor {
     position: relative;
     height: 140px;
     margin-bottom: 30px;
     display: flex;
     flex-direction: column;
-}
-
-.label-valor {
-    font-weight: 600;
-    color: var(--cor-texto);
-    padding: 8px 12px;
-    background-color: white;
-    border-radius: 6px;
-    border: 1px solid var(--cor-borda);
-    white-space: nowrap;
-    width: fit-content;
-    align-self: center;
-    margin-bottom: 24px;
-    font-size: 0.95rem;
-}
-
-.barra-progresso {
-    position: absolute;
-    top: 45px;
-    left: 0;
-    right: 0;
-    height: 25px;
-    background-color: #e0e0e0;
-    border-radius: 12px;
-    overflow: hidden;
-    /* box-shadow removed for cleaner look */
-}
-
-.preenchimento {
-    height: 100%;
-    transition: width 0.5s ease;
-    border-radius: 12px;
-}
-
-.preenchimento.normal {
-    background: linear-gradient(90deg, var(--cor-normal), #66bb6a);
-}
-
-.preenchimento.alto {
-    background: linear-gradient(90deg, var(--cor-alto), #ee1414);
-}
-
-.preenchimento.muito-alto {
-    background: linear-gradient(90deg, var(--cor-muito-alto), #6a0c3b);
-}
-
-.preenchimento.baixo {
-    background: linear-gradient(90deg, var(--cor-baixo), #ffb300);
-}
-
-.preenchimento.muito-baixo {
-    background: linear-gradient(90deg, var(--cor-muito-baixo), #e65100);
-}
-
-.marcador-posicao {
-    position: absolute;
-    top: 0;
-    transform: translateX(-50%);
-    font-size: 1.8rem;
-    transition: left 0.5s ease;
-    z-index: 10;
-}
-
-.marcador-posicao.normal {
-    color: var(--cor-normal);
-}
-
-.marcador-posicao.alto {
-    color: var(--cor-alto);
-}
-
-.marcador-posicao.muito-alto {
-    color: var(--cor-muito-alto);
-}
-
-.marcador-posicao.baixo {
-    color: var(--cor-baixo);
-}
-
-.marcador-posicao.muito-baixo {
-    color: var(--cor-muito-baixo);
-}
-
-.escala-labels-posicao {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-top: 65px;
-    font-size: 0.85rem;
-    color: var(--cor-texto-secundario);
-    gap: 10px;
-}
-
-.label-escala {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    flex: 1;
-    text-align: center;
-}
-
-.label-texto {
-    font-size: 0.85rem;
-    font-weight: 500;
-    color: var(--cor-texto);
-    margin-bottom: 4px;
-}
-
-.label-valor-numerico {
-    font-size: 0.75rem;
-    color: var(--cor-texto-secundario);
-    font-weight: 400;
 }
 
 /* MENSAGEM DE RESULTADO */

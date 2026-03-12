@@ -14,7 +14,7 @@
     <header>
         <div class="container">
             <div class="header-top">
-                <h1>Interpretador de Exames Laboratoriais</h1>
+                <h1>oi</h1>
                 <button id="dark-mode-toggle" class="dark-mode-toggle" title="Alternar modo escuro">
                     <svg class="toggle-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
                         <circle cx="12" cy="12" r="5" class="sun-circle"></circle>
@@ -30,7 +30,7 @@
                     </svg>
                 </button>
             </div>
-            <p class="subtitle">Digite os valores do seu exame para entender se estão dentro da faixa de referência.</p>
+            <p class="subtitle">digite os valores do seu exame para entender se estão dentro da faixa de referência</p>
         </div>
     </header>
 
@@ -40,53 +40,41 @@
             <!-- Formulário -->
             <section class="form-section">
                 <div class="form-group">
-                    <label for="exame-select">Selecione o exame:</label>
-                    <select id="exame-select">
-                        <option value="">-- Escolha um exame --</option>
+                    <label for="sexo-select">Selecione seu sexo:</label>
+                    <select id="sexo-select" required>
+                        <option value="">-- Escolha --</option>
+                        <option value="mulher">Feminino</option>
+                        <option value="homem">Masculino</option>
                     </select>
                 </div>
 
                 <div class="form-group">
-                    <label for="valor-input">Digite o valor do exame:</label>
-                    <div class="input-group">
-                        <input 
-                            type="number" 
-                            id="valor-input" 
-                            placeholder="Ex: 95" 
-                            step="0.01"
-                            disabled
-                        >
-                        <span id="unidade-display" class="unidade"></span>
-                    </div>
+                    <label for="tipo-exame-select">Selecione o tipo de exame:</label>
+                    <select id="tipo-exame-select" disabled>
+                        <option value="">-- Escolha um tipo --</option>
+                        <option value="hemograma">Hemograma</option>
+                        <option value="glicemia">Glicemia</option>
+                    </select>
                 </div>
 
-                <button id="analisar-btn" class="btn-analisar" disabled>
-                    Analisar resultado
+                <div id="campos-exames-container" class="campos-exames-container hidden">
+                    <!-- Campos de exame serão adicionados aqui dinamicamente -->
+                </div>
+
+                <button id="testar-btn" class="btn-analisar" disabled>
+                    Testar Exame
                 </button>
             </section>
 
             <!-- Área de resultado -->
             <section id="resultado-section" class="resultado-section hidden">
-                <div class="resultado-card">
-                    <div id="resultado-status" class="resultado-status"></div>
-                    <h2 id="resultado-titulo">Resultado</h2>
-                    
-                    <div class="resultado-info">
-                        <p><strong>Exame:</strong> <span id="resultado-exame"></span></p>
-                        <p><strong>Seu valor:</strong> <span id="resultado-valor"></span></p>
-                        <p><strong>Intervalo de referência:</strong> <span id="resultado-intervalo"></span></p>
-                    </div>
-
-                    <div id="resultado-grafico" class="resultado-grafico">
-                        <div id="posicao-valor" class="posicao-valor"></div>
-                    </div>
-
-                    <div id="resultado-mensagem" class="resultado-mensagem"></div>
-
-                    <button id="novo-teste-btn" class="btn-novo-teste">
-                        Testar outro exame
-                    </button>
+                <div id="resultados-container" class="resultados-container">
+                    <!-- Cards de resultados serão adicionados aqui dinamicamente -->
                 </div>
+
+                <button id="novo-teste-btn" class="btn-novo-teste">
+                    Testar outro exame
+                </button>
             </section>
 
             <!-- Informações sobre exame -->

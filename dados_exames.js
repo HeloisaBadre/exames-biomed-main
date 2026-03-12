@@ -1,135 +1,254 @@
-// Banco de dados dos exames laboratoriais
-const exames = {
-    // HEMOGRAMA
-    hemoglobina: {
+// Banco de dados dos exames laboratoriais agrupados por tipo
+const tiposExames = {
+  hemograma: {
+    nome: "Hemograma",
+    descricao: "Análise completa das células do sangue",
+    exames: {
+      hemoglobina: {
         nome: "Hemoglobina",
         unidade: "g/dL",
-        minimo: 12,
-        maximo: 16,
-        descricao: "A hemoglobina é uma proteína nos glóbulos vermelhos que transporta oxigênio pelo corpo.",
-        mensagemBaixo: "Hemoglobina baixa pode indicar anemia, levando a cansaço e falta de energia.",
-        mensagemAlto: "Hemoglobina acima do normal pode estar associada a desidratação ou outras condições.",
-        mensagemNormal: "Sua hemoglobina está dentro do intervalo normal. Parabéns!"
-    },
-    
-    leucocitos: {
-        nome: "Leucócitos (Glóbulos Brancos)",
-        unidade: "mil/µL",
-        minimo: 4.5,
-        maximo: 11,
-        descricao: "Leucócitos são células de defesa do corpo contra infecções e doenças.",
-        mensagemBaixo: "Leucócitos baixos podem indicar fraqueza do sistema imunológico.",
-        mensagemAlto: "Leucócitos elevados podem indicar infecção, inflamação ou outras condições.",
-        mensagemNormal: "Seus leucócitos estão em nível normal. Seu sistema imunológico está bem!"
-    },
-    
-    plaquetas: {
+        descricao: "Proteína no sangue responsável por transportar oxigênio.",
+        sexoDependente: true,
+        muitoBaixo_mulher: 10,
+        baixo_mulher: 11,
+        minimo_mulher: 12,
+        maximo_mulher: 16,
+        alto_mulher: 17,
+        muitoAlto_mulher: 18,
+        muitoBaixo_homem: 10,
+        baixo_homem: 12,
+        minimo_homem: 13,
+        maximo_homem: 17,
+        alto_homem: 18,
+        muitoAlto_homem: 19,
+        mensagemBaixo: "Hemoglobina baixa pode indicar anemia. Procure um profissional de saúde.",
+        mensagemNormal: "Sua hemoglobina está dentro dos valores normais.",
+        mensagemAlto: "Hemoglobina elevada. Pode indicar desidratação ou outras condições.",
+        mensagemMuitoAlto: "Hemoglobina muito elevada. Procure um profissional de saúde."
+      },
+      hematocrito: {
+        nome: "Hematócrito",
+        unidade: "%",
+        descricao: "Percentual de glóbulos vermelhos no sangue.",
+        sexoDependente: true,
+        muitoBaixo_mulher: 30,
+        baixo_mulher: 35,
+        minimo_mulher: 36,
+        maximo_mulher: 46,
+        alto_mulher: 47,
+        muitoAlto_mulher: 51,
+        muitoBaixo_homem: 30,
+        baixo_homem: 39,
+        minimo_homem: 40,
+        maximo_homem: 50,
+        alto_homem: 51,
+        muitoAlto_homem: 55,
+        mensagemBaixo: "Hematócrito baixo pode indicar anemia. Procure um profissional de saúde.",
+        mensagemNormal: "Seu hematócrito está dentro dos valores normais.",
+        mensagemAlto: "Hematócrito elevado. Pode indicar desidratação ou outras condições.",
+        mensagemMuitoAlto: "Hematócrito muito elevado. Procure um profissional de saúde."
+      },
+      hemaceas: {
+        nome: "Hemácias (RBC)",
+        unidade: "milhões/mm³",
+        descricao: "Contagem de glóbulos vermelhos.",
+        muitoBaixo: 3.5,
+        baixo: 4.0,
+        minimo: 4.0,
+        maximo: 5.6,
+        alto: 6.0,
+        muitoAlto: 6.5,
+        mensagemBaixo: "Hemácias baixas podem indicar anemia. Procure um profissional de saúde.",
+        mensagemNormal: "Sua contagem de hemácias está normal.",
+        mensagemAlto: "Hemácias elevadas. Pode indicar desidratação ou policitemia.",
+        mensagemMuitoAlto: "Hemácias muito elevadas. Procure um profissional de saúde."
+      },
+      leucocitosTotal: {
+        nome: "Leucócitos Totais",
+        unidade: "/mm³",
+        descricao: "Contagem total de células de defesa do corpo.",
+        muitoBaixo: 2500,
+        baixo: 3500,
+        minimo: 4000,
+        maximo: 11000,
+        alto: 13000,
+        muitoAlto: 15000,
+        mensagemBaixo: "Leucócitos baixos. Pode indicar imunossupressão.",
+        mensagemNormal: "Sua contagem de leucócitos está normal.",
+        mensagemAlto: "Leucócitos elevados. Pode indicar infecção ou inflamação.",
+        mensagemMuitoAlto: "Leucócitos muito elevados. Procure um profissional de saúde."
+      },
+      neutrofilos: {
+        nome: "Neutrófilos",
+        unidade: "%",
+        descricao: "Tipo de leucócito mais abundante. Defende contra infecções.",
+        muitoBaixo: 35,
+        baixo: 40,
+        minimo: 45,
+        maximo: 70,
+        alto: 75,
+        muitoAlto: 80,
+        mensagemBaixo: "Neutrófilos baixos. Pode indicar imunossupressão.",
+        mensagemNormal: "Seus neutrófilos estão dentro dos valores normais.",
+        mensagemAlto: "Neutrófilos elevados. Pode indicar infecção bacteriana.",
+        mensagemMuitoAlto: "Neutrófilos muito elevados. Procure um profissional de saúde."
+      },
+      linfocitos: {
+        nome: "Linfócitos",
+        unidade: "%",
+        descricao: "Células responsáveis pela resposta imunológica específica.",
+        muitoBaixo: 15,
+        baixo: 18,
+        minimo: 20,
+        maximo: 40,
+        alto: 45,
+        muitoAlto: 50,
+        mensagemBaixo: "Linfócitos baixos. Pode indicar imunossupressão.",
+        mensagemNormal: "Seus linfócitos estão dentro dos valores normais.",
+        mensagemAlto: "Linfócitos elevados. Pode indicar infecção viral.",
+        mensagemMuitoAlto: "Linfócitos muito elevados. Procure um profissional de saúde."
+      },
+      monocitos: {
+        nome: "Monócitos",
+        unidade: "%",
+        descricao: "Células que comem bactérias e outras partículas.",
+        muitoBaixo: 1,
+        baixo: 1.5,
+        minimo: 2,
+        maximo: 10,
+        alto: 12,
+        muitoAlto: 15,
+        mensagemBaixo: "Monócitos baixos.",
+        mensagemNormal: "Seus monócitos estão dentro dos valores normais.",
+        mensagemAlto: "Monócitos elevados. Pode indicar infecção ou inflamação.",
+        mensagemMuitoAlto: "Monócitos muito elevados. Procure um profissional de saúde."
+      },
+      eosinofilos: {
+        nome: "Eosinófilos",
+        unidade: "%",
+        descricao: "Células envolvidas em alergias e parasitas.",
+        muitoBaixo: 0,
+        baixo: 0.5,
+        minimo: 1,
+        maximo: 5,
+        alto: 7,
+        muitoAlto: 10,
+        mensagemBaixo: "Eosinófilos baixos.",
+        mensagemNormal: "Seus eosinófilos estão dentro dos valores normais.",
+        mensagemAlto: "Eosinófilos elevados. Pode indicar alergia ou parasita.",
+        mensagemMuitoAlto: "Eosinófilos muito elevados. Procure um profissional de saúde."
+      },
+      basofilos: {
+        nome: "Basófilos",
+        unidade: "%",
+        descricao: "Células envolvidas em reações alérgicas.",
+        muitoBaixo: -1,
+        baixo: 0.5,
+        minimo: 0,
+        maximo: 2,
+        alto: 2.5,
+        muitoAlto: 3,
+        mensagemBaixo: "Basófilos baixos.",
+        mensagemNormal: "Seus basófilos estão dentro dos valores normais.",
+        mensagemAlto: "Basófilos elevados. Pode indicar alergia ou inflamação.",
+        mensagemMuitoAlto: "Basófilos muito elevados. Procure um profissional de saúde."
+      },
+      plaquetas: {
         nome: "Plaquetas",
-        unidade: "mil/µL",
-        minimo: 150,
-        maximo: 400,
-        descricao: "Plaquetas são células que ajudam na coagulação do sangue.",
-        mensagemBaixo: "Plaquetas baixas podem prejudicar a coagulação do sangue.",
-        mensagemAlto: "Plaquetas elevadas podem estar relacionadas a inflamação ou outras condições.",
-        mensagemNormal: "Suas plaquetas estão dentro da faixa normal. A coagulação está funcionando bem!"
-    },
-
-    // BIOQUÍMICA
-    glicose: {
-        nome: "Glicose (Em Jejum)",
+        unidade: "/mm³",
+        descricao: "Células responsáveis pela coagulação do sangue.",
+        muitoBaixo: 100000,
+        baixo: 130000,
+        minimo: 150000,
+        maximo: 450000,
+        alto: 470000,
+        muitoAlto: 500000,
+        mensagemBaixo: "Plaquetas baixas (trombocitopenia). Pode afetar a coagulação.",
+        mensagemNormal: "Sua contagem de plaquetas está normal.",
+        mensagemAlto: "Plaquetas elevadas. Pode indicar inflamação ou outras condições.",
+        mensagemMuitoAlto: "Plaquetas muito elevadas. Procure um profissional de saúde."
+      }
+    }
+  },
+  glicemia: {
+    nome: "Glicemia",
+    descricao: "Análise dos níveis de glicose no sangue",
+    exames: {
+      glicemiaJejum: {
+        nome: "Glicemia de Jejum",
         unidade: "mg/dL",
+        descricao: "Mede o nível de açúcar no sangue após 8-12 horas de jejum.",
+        muitoBaixo: -1,
+        baixo: 70,
         minimo: 70,
         maximo: 99,
-        descricao: "A glicose é o açúcar no sangue, principal fonte de energia do corpo.",
-        mensagemBaixo: "Glicose baixa (hipoglicemia) pode causar tontura, fraqueza e tremores.",
-        mensagemAlto: "Glicose elevada (hiperglicemia) pode indicar pré-diabetes ou diabetes.",
-        mensagemNormal: "Sua glicose está dentro do intervalo normal. Parabéns!"
-    },
-
-    colesterol_total: {
-        nome: "Colesterol Total",
+        alto: 110,
+        muitoAlto: 126,
+        mensagemBaixo: "Glicemia baixa (hipoglicemia). Procure um profissional de saúde.",
+        mensagemNormal: "Sua glicemia está dentro dos valores normais.",
+        mensagemAlto: "Sua glicemia está elevada. Pode indicar pré-diabetes ou diabetes.",
+        mensagemMuitoAlto: "Sua glicemia está muito elevada (≥ 126 mg/dL). Pode indicar diabetes. Procure imediatamente um profissional de saúde."
+      },
+      glicemiaAcaso: {
+        nome: "Glicemia ao Acaso",
         unidade: "mg/dL",
-        minimo: 0,
-        maximo: 200,
-        descricao: "O colesterol total é a soma de todas as formas de colesterol no sangue.",
-        mensagemBaixo: "Colesterol muito baixo é raro, mas pode estar associado a problemas nutricionais.",
-        mensagemAlto: "Colesterol elevado aumenta o risco de doenças cardíacas. Adote hábitos saudáveis.",
-        mensagemNormal: "Seu colesterol total está em nível desejável. Continue cuidando-se!"
-    },
-
-    hdl: {
-        nome: "HDL (Colesterol Bom)",
+        descricao: "Mede o nível de açúcar no sangue em qualquer hora do dia.",
+        muitoBaixo: -1,
+        baixo: 100,
+        minimo: 100,
+        maximo: 199,
+        alto: 200,
+        muitoAlto: 200,
+        mensagemBaixo: "Glicemia baixa. Procure um profissional de saúde.",
+        mensagemNormal: "Sua glicemia está dentro dos valores normais.",
+        mensagemAlto: "Sua glicemia está elevada. Pode indicar alteração no metabolismo.",
+        mensagemMuitoAlto: "Sua glicemia está muito elevada (≥ 200 mg/dL) com sintomas. Pode indicar diabetes. Procure imediatamente um profissional de saúde."
+      },
+      glicemiaTTGO1h: {
+        nome: "Glicemia 1h no TTGO",
         unidade: "mg/dL",
-        minimo: 40,
-        maximo: 60,
-        descricao: "O HDL é o 'colesterol bom' que ajuda a remover colesterol das artérias.",
-        mensagemBaixo: "HDL baixo aumenta o risco de doenças cardíacas.",
-        mensagemAlto: "HDL muito elevado pode estar associado a problemas de saúde. Procure avaliação médica.",
-        mensagemMuitoAlto: "HDL extremamente elevado pode ser prejudicial. Consulte um profissional de saúde.",
-        mensagemNormal: "Seu HDL está em bom nível. Continue com hábitos saudáveis!",
-        limites: {
-            muitoAlto: 90
-        }
-    },
-
-    ldl: {
-        nome: "LDL (Colesterol Ruim)",
+        descricao: "Mede o nível de glicose 1 hora após ingestão de 75g de glicose.",
+        muitoBaixo: -1,
+        baixo: 140,
+        minimo: 140,
+        maximo: 154,
+        alto: 180,
+        muitoAlto: 209,
+        mensagemBaixo: "Glicemia baixa. Procure um profissional de saúde.",
+        mensagemNormal: "Sua glicemia está dentro dos valores normais.",
+        mensagemAlto: "Sua glicemia está elevada. Pode indicar pré-diabetes.",
+        mensagemMuitoAlto: "Sua glicemia está muito elevada (≥ 209 mg/dL). Pode indicar diabetes. Procure um profissional de saúde."
+      },
+      glicemiaTTGO2h: {
+        nome: "Glicemia 2h no TTGO",
         unidade: "mg/dL",
-        minimo: 0,
-        maximo: 130,
-        descricao: "O LDL é o 'colesterol ruim' que pode se acumular nas artérias.",
-        mensagemBaixo: "LDL baixo é excelente para a saúde cardiovascular.",
-        mensagemAlto: "LDL elevado aumenta o risco de entupimento das artérias.",
-        mensagemNormal: "Seu LDL está em nível adequado. Parabéns!"
-    },
-
-    triglicerideos: {
-        nome: "Triglicerídeos",
-        unidade: "mg/dL",
-        minimo: 0,
-        maximo: 150,
-        descricao: "Triglicerídeos são um tipo de gordura no sangue ligada à alimentação.",
-        mensagemBaixo: "Triglicerídeos baixos são saudáveis.",
-        mensagemAlto: "Triglicerídeos elevados aumentam o risco de doenças cardíacas.",
-        mensagemNormal: "Seus triglicerídeos estão em nível normal. Continue com dieta equilibrada!"
-    },
-
-    // OUTROS COMUNS
-    tsh: {
-        nome: "TSH (Hormônio Estimulante da Tireoide)",
-        unidade: "mIU/L",
-        minimo: 0.4,
-        maximo: 4,
-        descricao: "O TSH controla o funcionamento da glândula tireoide, que regula o metabolismo.",
-        mensagemBaixo: "TSH baixo pode indicar hipertireoidismo (tireoide acelerada).",
-        mensagemAlto: "TSH elevado pode indicar hipotireoidismo (tireoide lenta).",
-        mensagemNormal: "Seu TSH está normal. Sua tireoide está funcionando bem!"
-    },
-
-    creatinina: {
-        nome: "Creatinina",
-        unidade: "mg/dL",
-        minimo: 0.6,
-        maximo: 1.2,
-        descricao: "Creatinina é um resíduo do metabolismo muscular que os rins devem eliminar.",
-        mensagemBaixo: "Creatinina baixa é geralmente sem significado clínico.",
-        mensagemAlto: "Creatinina elevada pode indicar problemas nos rins.",
-        mensagemNormal: "Sua creatinina está normal. Seus rins estão funcionando bem!"
-    },
-
-    ureia: {
-        nome: "Ureia",
-        unidade: "mg/dL",
-        minimo: 7,
-        maximo: 20,
-        descricao: "Ureia é um resíduo do metabolismo de proteínas eliminado pelos rins.",
-        mensagemBaixo: "Ureia baixa é rara, pode estar relacionada a problemas nutricionais.",
-        mensagemAlto: "Ureia elevada pode indicar problemas nos rins ou desidratação.",
-        mensagemNormal: "Sua ureia está dentro do intervalo normal!"
+        descricao: "Mede o nível de glicose 2 horas após ingestão de 75g de glicose.",
+        muitoBaixo: -1,
+        baixo: 100,
+        minimo: 100,
+        maximo: 139,
+        alto: 170,
+        muitoAlto: 200,
+        mensagemBaixo: "Glicemia baixa. Procure um profissional de saúde.",
+        mensagemNormal: "Sua glicemia está dentro dos valores normais.",
+        mensagemAlto: "Sua glicemia está elevada. Pode indicar pré-diabetes.",
+        mensagemMuitoAlto: "Sua glicemia está muito elevada (≥ 200 mg/dL). Pode indicar diabetes. Procure um profissional de saúde."
+      },
+      hba1c: {
+        nome: "HbA1c (Hemoglobina Glicada)",
+        unidade: "%",
+        descricao: "Mede a média de glicose nos últimos 2-3 meses.",
+        muitoBaixo: -1,
+        baixo: 5.0,
+        minimo: 5.0,
+        maximo: 5.6,
+        alto: 6.0,
+        muitoAlto: 6.5,
+        mensagemBaixo: "HbA1c baixa. Procure um profissional de saúde.",
+        mensagemNormal: "Sua HbA1c está dentro dos valores normais.",
+        mensagemAlto: "Sua HbA1c está elevada. Pode indicar pré-diabetes.",
+        mensagemMuitoAlto: "Sua HbA1c está muito elevada (≥ 6.5%). Pode indicar diabetes. Procure um profissional de saúde."
+      }
     }
+  }
 };
-
-// Lista de exames em ordem alfabética para exibição
-const examesOrdenados = Object.keys(exames).sort((a, b) => 
-    exames[a].nome.localeCompare(exames[b].nome)
-);
