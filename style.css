@@ -6,16 +6,16 @@
 }
 
 :root {
-    --cor-primaria: #1e88e5;
-    --cor-secundaria: #1e88e5;
-    --cor-sucesso: #4caf50;
-    --cor-aviso: #ff9800;
-    --cor-erro: #f83a2c;
-    --cor-muito-alto: #8b1a4f;
-    --cor-alto: #f44336;
-    --cor-normal: #4caf50;
-    --cor-baixo: #ffc107;
-    --cor-muito-baixo: #ff9800;
+    --cor-primaria: #1273A6;
+    --cor-secundaria: #10ADB2;
+    --cor-sucesso: #10ADB2;
+    --cor-aviso: #FCC837;
+    --cor-erro: #E24E4E;
+    --cor-muito-alto: #E24E4E;
+    --cor-alto: #FCC837;
+    --cor-normal: #10ADB2;
+    --cor-baixo: #FCC837;
+    --cor-muito-baixo: #E24E4E;
     --cor-background: #f5f7fa;
     --cor-card: #ffffff;
     --cor-texto: #2c3e50;
@@ -36,23 +36,23 @@ body.dark-mode {
 }
 
 body.dark-mode header {
-    background: linear-gradient(135deg, #0c2b5a 0%, #0b2d53 100%);
+    background: linear-gradient(135deg, #0d5a7a 0%, #0a4d66 100%);
 }
 
 body.dark-mode footer {
     background-color: #0a0a0a;
     color: #ffffff;
-    border-top-color: #1565c0;
+    border-top-color: #1273A6;
 }
 
 body.dark-mode .aviso-medico {
-    background-color: rgba(21, 101, 192, 0.2);
+    background-color: rgba(18, 115, 166, 0.2);
     color: #ffffff;
-    border-left-color: #64b5f6;
+    border-left-color: #10ADB2;
 }
 
 body.dark-mode .aviso-medico strong {
-    color: #64b5f6;
+    color: #10ADB2;
     font-weight: 700;
 }
 
@@ -115,7 +115,7 @@ body.dark-mode .recomendacao {
 }
 
 body.dark-mode .recomendacao strong {
-    color: #64b5f6;
+    color: #10ADB2;
 }
 
 body.dark-mode .resultado-info {
@@ -128,7 +128,7 @@ body.dark-mode .resultado-info p {
 }
 
 body.dark-mode .resultado-info strong {
-    color: #64b5f6;
+    color: #10ADB2;
 }
 
 body.dark-mode .resultado-info span {
@@ -150,11 +150,11 @@ body.dark-mode .label-texto {
 }
 
 body.dark-mode .label-valor-numerico {
-    color: #64b5f6;
+    color: #10ADB2;
 }
 
 body.dark-mode .escala-labels-posicao {
-    color: #64b5f6;
+    color: #10ADB2;
 }
 
 body.dark-mode .barra-progresso {
@@ -166,7 +166,7 @@ body.dark-mode .resultado-grafico {
 }
 
 body.dark-mode .info-card {
-    background: linear-gradient(135deg, rgba(21, 101, 192, 0.158) 0%, rgba(13, 71, 161, 0.1) 100%);
+    background: linear-gradient(135deg, rgba(18, 115, 166, 0.158) 0%, rgba(16, 173, 178, 0.1) 100%);
 }
 
 /* Cores da página de acordo com o resultado */
@@ -175,19 +175,19 @@ body.resultado-normal {
 }
 
 body.resultado-alto {
-    --cor-texto: #c62828;
+    --cor-texto: #d4a91a;
 }
 
 body.resultado-muito-alto {
-    --cor-texto: #8b1a4f;
+    --cor-texto: #d93f3f;
 }
 
 body.resultado-baixo {
-    --cor-texto: #f57f17;
+    --cor-texto: #d4a91a;
 }
 
 body.resultado-muito-baixo {
-    --cor-texto: #e65100;
+    --cor-texto: #d93f3f;
 }
 
 body {
@@ -374,7 +374,7 @@ input[type="number"]:disabled {
 .btn-novo-teste {
     width: 100%;
     padding: 14px 20px;
-    background: linear-gradient(135deg, #0d47a1 0%, #0d478a 100%);
+    background: linear-gradient(135deg, #1273A6 0%, #0f5a7a 100%);
     color: white;
     border: none;
     border-radius: 8px;
@@ -460,7 +460,7 @@ body.dark-mode .campo-exame {
 }
 
 .info-card {
-    background: linear-gradient(135deg, rgba(30, 136, 229, 0.05) 0%, rgba(13, 71, 161, 0.05) 100%);
+    background: linear-gradient(135deg, rgba(18, 115, 166, 0.05) 0%, rgba(16, 173, 178, 0.05) 100%);
     padding: 20px;
     border-radius: 8px;
     border-left: 5px solid var(--cor-primaria);
@@ -514,7 +514,7 @@ body.dark-mode .campo-exame {
 }
 
 .resultado-status.normal {
-    background-color: rgba(76, 175, 80, 0.1);
+    background-color: rgba(16, 173, 178, 0.1);
     color: var(--cor-normal);
     border-left: 5px solid var(--cor-normal);
 }
@@ -524,7 +524,7 @@ body.dark-mode .campo-exame {
 }
 
 .resultado-status.alto {
-    background-color: rgba(244, 67, 54, 0.1);
+    background-color: rgba(252, 200, 55, 0.1);
     color: var(--cor-alto);
     border-left: 5px solid var(--cor-alto);
 }
@@ -534,7 +534,7 @@ body.dark-mode .campo-exame {
 }
 
 .resultado-status.muito-alto {
-    background-color: rgba(139, 26, 79, 0.1);
+    background-color: rgba(226, 78, 78, 0.1);
     color: var(--cor-muito-alto);
     border-left: 5px solid var(--cor-muito-alto);
 }
@@ -544,7 +544,7 @@ body.dark-mode .campo-exame {
 }
 
 .resultado-status.baixo {
-    background-color: rgba(255, 193, 7, 0.1);
+    background-color: rgba(252, 200, 55, 0.1);
     color: var(--cor-baixo);
     border-left: 5px solid var(--cor-baixo);
 }
@@ -554,7 +554,7 @@ body.dark-mode .campo-exame {
 }
 
 .resultado-status.muito-baixo {
-    background-color: rgba(255, 152, 0, 0.1);
+    background-color: rgba(226, 78, 78, 0.1);
     color: var(--cor-muito-baixo);
     border-left: 5px solid var(--cor-muito-baixo);
 }
@@ -644,23 +644,23 @@ body.dark-mode .campo-exame {
 }
 
 .grafico-barra-preenchimento.normal {
-    background: linear-gradient(90deg, var(--cor-normal), #66bb6a);
+    background: linear-gradient(90deg, var(--cor-normal), #0d8c92);
 }
 
 .grafico-barra-preenchimento.alto {
-    background: linear-gradient(90deg, var(--cor-alto), #ee1414);
+    background: linear-gradient(90deg, var(--cor-alto), #f9b84e);
 }
 
 .grafico-barra-preenchimento.muito-alto {
-    background: linear-gradient(90deg, var(--cor-muito-alto), #6a0c3b);
+    background: linear-gradient(90deg, var(--cor-muito-alto), #d93f3f);
 }
 
 .grafico-barra-preenchimento.baixo {
-    background: linear-gradient(90deg, var(--cor-baixo), #ffb300);
+    background: linear-gradient(90deg, var(--cor-baixo), #f9b84e);
 }
 
 .grafico-barra-preenchimento.muito-baixo {
-    background: linear-gradient(90deg, var(--cor-muito-baixo), #e65100);
+    background: linear-gradient(90deg, var(--cor-muito-baixo), #d93f3f);
 }
 
 .grafico-marcador {
