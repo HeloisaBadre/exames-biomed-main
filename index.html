@@ -49,11 +49,22 @@
                 </div>
 
                 <div class="form-group">
+                    <label for="idade-select">Selecione sua faixa etária (para exames com valores dependentes de idade):</label>
+                    <select id="idade-select">
+                        <option value="">-- Opcional (não aplicável em alguns exames) --</option>
+                        <option value="crianca">Menor de 9 anos</option>
+                        <option value="adolescente">9 a 19 anos</option>
+                        <option value="adulto">Maior de 20 anos (Adulto)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
                     <label for="tipo-exame-select">Selecione o tipo de exame:</label>
                     <select id="tipo-exame-select" disabled>
                         <option value="">-- Escolha um tipo --</option>
                         <option value="hemograma">Hemograma</option>
                         <option value="glicemia">Glicemia</option>
+                        <option value="lipidograma">Lipidograma</option>
                     </select>
                 </div>
 

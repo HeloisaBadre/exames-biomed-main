@@ -1,5 +1,6 @@
 // Elementos do DOM
 const sexoSelect = document.getElementById('sexo-select');
+const idadeSelect = document.getElementById('idade-select');
 const tipoExameSelect = document.getElementById('tipo-exame-select');
 const camposExamesContainer = document.getElementById('campos-exames-container');
 const testarBtn = document.getElementById('testar-btn');
@@ -10,6 +11,7 @@ const darkModeToggle = document.getElementById('dark-mode-toggle');
 
 // Variáveis de estado
 let sexoSelecionado = '';
+let idadeSelecionada = '';
 let tipoExameSelecionado = '';
 let valoresExames = {};
 
@@ -39,6 +41,7 @@ function alternarDarkMode() {
 // Adicionar event listeners
 function adicionarEventListeners() {
     sexoSelect.addEventListener('change', aoSelecionarSexo);
+    idadeSelect.addEventListener('change', aoSelecionarIdade);
     tipoExameSelect.addEventListener('change', aoSelecionarTipoExame);
     testarBtn.addEventListener('click', analisarTodosExames);
     novoTesteBtn.addEventListener('click', resetarFormulario);
@@ -59,6 +62,15 @@ function aoSelecionarSexo() {
     
     tipoExameSelect.disabled = false;
     tipoExameSelect.focus();
+}
+
+// Quando idade é selecionada
+function aoSelecionarIdade() {
+    idadeSelecionada = idadeSelect.value;
+    // Recarregar campos se um tipo de exame já foi selecionado
+    if (tipoExameSelecionado) {
+        preencherCamposExame(tipoExameSelecionado);
+    }
 }
 
 // Quando tipo de exame é selecionado
@@ -174,6 +186,28 @@ function analisarExame(chaveExame, valor, exame) {
         maximo = exame[`maximo_${sexoSelecionado}`];
         alto = exame[`alto_${sexoSelecionado}`];
         muitoAlto = exame[`muitoAlto_${sexoSelecionado}`];
+    } else if (exame.possuiIdades && idadeSelecionada && exame.idades[idadeSelecionada]) {
+        // Valores dependentes de idade
+        const faixaIdade = exame.idades[idadeSelecionada];
+        
+        // Verifique se é dependente de jejum
+        if (exame.jejumDepende && faixaIdade.comJejum && faixaIdade.semJejum) {
+            // Para agora, usar valores com jejum como padrão
+            const valores = faixaIdade.comJejum;
+            muitoBaixo = valores.muitoBaixo;
+            baixo = valores.baixo;
+            minimo = valores.minimo;
+            maximo = valores.maximo;
+            alto = valores.alto;
+            muitoAlto = valores.muitoAlto;
+        } else {
+            muitoBaixo = faixaIdade.muitoBaixo;
+            baixo = faixaIdade.baixo;
+            minimo = faixaIdade.minimo;
+            maximo = faixaIdade.maximo;
+            alto = faixaIdade.alto;
+            muitoAlto = faixaIdade.muitoAlto;
+        }
     } else {
         muitoBaixo = exame.muitoBaixo;
         baixo = exame.baixo;
@@ -187,31 +221,50 @@ function analisarExame(chaveExame, valor, exame) {
     let status = '';
     let statusClass = '';
     let mensagem = '';
+    let dicas = [];
     
     if (muitoBaixo !== undefined && valor < muitoBaixo) {
         status = 'MUITO BAIXO';
         statusClass = 'muito-baixo';
         mensagem = exame.mensagemMuitoBaixo || exame.mensagemBaixo;
+        if (exame.dicas && exame.dicas.muito_baixo) {
+            dicas = exame.dicas.muito_baixo;
+        }
     } else if (baixo !== undefined && valor < baixo) {
         status = 'BAIXO';
         statusClass = 'baixo';
         mensagem = exame.mensagemBaixo;
+        if (exame.dicas && exame.dicas.baixo) {
+            dicas = exame.dicas.baixo;
+        }
     } else if (valor < minimo) {
         status = 'BAIXO';
         statusClass = 'baixo';
         mensagem = exame.mensagemBaixo;
+        if (exame.dicas && exame.dicas.baixo) {
+            dicas = exame.dicas.baixo;
+        }
     } else if (muitoAlto !== undefined && valor > muitoAlto) {
         status = 'MUITO ALTO';
         statusClass = 'muito-alto';
         mensagem = exame.mensagemMuitoAlto || exame.mensagemAlto;
+        if (exame.dicas && exame.dicas.muito_alto) {
+            dicas = exame.dicas.muito_alto;
+        }
     } else if (alto !== undefined && valor > alto) {
         status = 'ALTO';
         statusClass = 'alto';
         mensagem = exame.mensagemAlto;
+        if (exame.dicas && exame.dicas.alto) {
+            dicas = exame.dicas.alto;
+        }
     } else if (valor > maximo) {
         status = 'ALTO';
         statusClass = 'alto';
         mensagem = exame.mensagemAlto;
+        if (exame.dicas && exame.dicas.alto) {
+            dicas = exame.dicas.alto;
+        }
     } else {
         status = 'NORMAL';
         statusClass = 'normal';
@@ -228,7 +281,8 @@ function analisarExame(chaveExame, valor, exame) {
         status,
         statusClass,
         mensagem,
-        descricao: exame.descricao
+        descricao: exame.descricao,
+        dicas
     };
 }
 
@@ -261,12 +315,27 @@ function exibirTodosResultados(resultados) {
         
         const mensagem = document.createElement('div');
         mensagem.className = 'resultado-mensagem';
-        mensagem.innerHTML = `
-            <p>${resultado.mensagem}</p>
+        let mensagemHTML = `<p>${resultado.mensagem}</p>`;
+        
+        // Adicionar dicas se o resultado não for normal
+        if (resultado.status !== 'NORMAL' && resultado.dicas && resultado.dicas.length > 0) {
+            mensagemHTML += `
+                <div class="resultado-dicas">
+                    <p class="dicas-titulo"><strong>Dicas para melhorar:</strong></p>
+                    <ul class="dicas-lista">
+                        ${resultado.dicas.map(dica => `<li>${dica}</li>`).join('')}
+                    </ul>
+                </div>
+            `;
+        }
+        
+        mensagemHTML += `
             <p class="recomendacao">
                 <strong>Recomendação:</strong> Procure um profissional de saúde para avaliação completa e adequada.
             </p>
         `;
+        
+        mensagem.innerHTML = mensagemHTML;
         
         card.appendChild(statusDiv);
         card.appendChild(titulo);
@@ -316,6 +385,7 @@ function criarGraficoHTML(resultado) {
 // Resetar formulário
 function resetarFormulario() {
     sexoSelect.value = '';
+    idadeSelect.value = '';
     tipoExameSelect.value = '';
     tipoExameSelect.disabled = true;
     camposExamesContainer.innerHTML = '';
@@ -325,6 +395,7 @@ function resetarFormulario() {
     resultadosContainer.innerHTML = '';
     valoresExames = {};
     sexoSelecionado = '';
+    idadeSelecionada = '';
     tipoExameSelecionado = '';
     document.body.className = document.body.className.replace(/resultado-(muito-)?[a-z]+/g, '').trim();
     sexoSelect.focus();

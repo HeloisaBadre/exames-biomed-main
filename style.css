@@ -751,6 +751,40 @@ body.dark-mode .campo-exame {
     font-weight: 500;
 }
 
+/* DICAS DE MELHORIA */
+.resultado-dicas {
+    background: linear-gradient(135deg, rgba(16, 173, 178, 0.1) 0%, rgba(18, 115, 166, 0.05) 100%);
+    border-left: 4px solid var(--cor-secundaria);
+    padding: 15px;
+    border-radius: 4px;
+    margin: 15px 0;
+}
+
+.dicas-titulo {
+    color: var(--cor-secundaria);
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.dicas-lista {
+    list-style-position: inside;
+    margin-left: 0;
+}
+
+.dicas-lista li {
+    color: var(--cor-texto);
+    margin-bottom: 8px;
+    line-height: 1.6;
+}
+
+.dicas-lista li:last-child {
+    margin-bottom: 0;
+}
+
+body.dark-mode .resultado-dicas {
+    background: linear-gradient(135deg, rgba(16, 173, 178, 0.15) 0%, rgba(18, 115, 166, 0.08) 100%);
+}
+
 /* BOTÃO NOVO TESTE */
 .btn-novo-teste {
     margin-top: 25px;
