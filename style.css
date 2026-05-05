@@ -135,6 +135,15 @@ body.dark-mode .resultado-info span {
     color: #ffffff;
 }
 
+body.dark-mode .resultado-descricao {
+    background-color: rgba(16, 173, 178, 0.15);
+    border-left-color: #10ADB2;
+}
+
+body.dark-mode .resultado-descricao p {
+    color: #c2c2c2;
+}
+
 body.dark-mode .resultado-card h2 {
     color: #ffffff;
 }
@@ -491,6 +500,23 @@ body.dark-mode .campo-exame {
     border-radius: 12px;
     /* box-shadow removed for cleaner look */
     border-top: 5px solid var(--cor-primaria);
+}
+
+/* Descrição do exame (informativo/roxo) */
+.resultado-descricao {
+    background-color: rgba(18, 115, 166, 0.08);
+    border-left: 4px solid var(--cor-primaria);
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+    line-height: 1.6;
+}
+
+.resultado-descricao p {
+    color: var(--cor-texto);
+    margin: 0;
+    white-space: pre-wrap;
+    word-wrap: break-word;
 }
 
 .resultado-status {

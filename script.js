@@ -114,11 +114,11 @@ function preencherCamposExame() {
         inputContainer.className = 'input-group';
         
         const input = document.createElement('input');
-        input.type = 'number';
+        input.type = 'text';
         input.id = `exame-${chaveExame}`;
         input.className = 'campo-exame';
         input.placeholder = `Ex: 100`;
-        input.step = '0.01';
+        input.inputMode = 'decimal';
         input.dataset.chave = chaveExame;
         input.dataset.exame = JSON.stringify(exame);
         input.addEventListener('input', () => {
@@ -153,7 +153,9 @@ function analisarTodosExames() {
     
     Object.keys(exames).forEach(chaveExame => {
         const input = document.getElementById(`exame-${chaveExame}`);
-        const valor = parseFloat(input.value);
+        // Converter vírgula para ponto antes de fazer parseFloat
+        const valorInput = input.value.replace(",", ".");
+        const valor = parseFloat(valorInput);
         
         if (isNaN(valor) || input.value.trim() === '') {
             todosPreenchidos = false;
@@ -294,13 +296,19 @@ function exibirTodosResultados(resultados) {
         const card = document.createElement('div');
         card.className = `resultado-card ${resultado.statusClass}`;
         
-        const statusDiv = document.createElement('div');
-        statusDiv.className = `resultado-status ${resultado.statusClass}`;
-        statusDiv.textContent = `Resultado: ${resultado.status}`;
-        
         const titulo = document.createElement('h2');
         titulo.className = 'resultado-titulo';
         titulo.textContent = resultado.nome;
+        
+        // Descrição (roxo/informativo) - PRIMEIRO
+        const descricao = document.createElement('div');
+        descricao.className = 'resultado-descricao';
+        descricao.innerHTML = `<p>${resultado.descricao}</p>`;
+        
+        // Status/Resultado (verde) - LOGO DEPOIS
+        const statusDiv = document.createElement('div');
+        statusDiv.className = `resultado-status ${resultado.statusClass}`;
+        statusDiv.textContent = `Resultado: ${resultado.status}`;
         
         const info = document.createElement('div');
         info.className = 'resultado-info';
@@ -337,8 +345,10 @@ function exibirTodosResultados(resultados) {
         
         mensagem.innerHTML = mensagemHTML;
         
-        card.appendChild(statusDiv);
+        // Ordem: Título → Descrição → Status → Info → Gráfico → Mensagem
         card.appendChild(titulo);
+        card.appendChild(descricao);
+        card.appendChild(statusDiv);
         card.appendChild(info);
         card.appendChild(grafico);
         card.appendChild(mensagem);

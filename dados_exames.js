@@ -2,7 +2,7 @@
 const tiposExames = {
   hemograma: {
     nome: "Hemograma",
-    descricao: "Análise completa das células do sangue",
+    descricao: "O hemograma avalia as células do sangue. Ele ajuda a identificar anemia, infecções, inflamações e alterações na coagulação.\n\nHematócrito: mede a quantidade de células vermelhas no sangue. Ajuda a identificar anemia ou desidratação.\n\nHemoglobina: mostra a capacidade do sangue de transportar oxigênio. É muito usada para diagnosticar anemia.\n\nHemácias (RBC): quantidade de glóbulos vermelhos. Também ajuda a avaliar anemia e oxigenação do corpo.\n\nLeucócitos totais: avaliam as células de defesa. Indicam se o corpo está reagindo a infecções ou inflamações.\n\nNeutrófilos: ajudam a combater bactérias. Aumentam principalmente em infecções bacterianas.\n\nLinfócitos: atuam contra vírus. Aumentam em infecções virais.\n\nMonócitos: ajudam na limpeza do organismo e em infecções mais prolongadas.\n\nEosinófilos: relacionados a alergias e parasitas.\n\nBasófilos: participam de reações alérgicas.\n\nPlaquetas: ajudam na coagulação do sangue. Alterações podem indicar risco de sangramento ou problemas inflamatórios.",
     exames: {
       hemoglobina: {
         nome: "Hemoglobina",
@@ -237,7 +237,7 @@ const tiposExames = {
       glicemiaJejum: {
         nome: "Glicemia de Jejum",
         unidade: "mg/dL",
-        descricao: "Mede o nível de açúcar no sangue após 8-12 horas de jejum.",
+        descricao: "A glicemia de jejum avalia a quantidade de açúcar (glicose) no sangue após um período sem comer. Ela é usada para diagnosticar e acompanhar o diabetes.\n\n• Normal: o corpo está controlando bem o açúcar no sangue\n\n• Alta: pode indicar diabetes ou risco de desenvolver a doença\n\n• Baixa: pode indicar falta de açúcar no sangue, causando sintomas como fraqueza e tontura",
         muitoBaixo: 0,
         baixo: 50,
         minimo: 70,
@@ -258,7 +258,7 @@ const tiposExames = {
       hba1c: {
         nome: "HbA1c (Hemoglobina Glicada)",
         unidade: "%",
-        descricao: "Mede a média de glicose nos últimos 2-3 meses.",
+        descricao: "A hemoglobina glicada avalia a média do nível de açúcar no sangue nos últimos 2 a 3 meses. Ela é usada para diagnosticar e monitorar o controle do diabetes ao longo do tempo.\n\n• Normal: indica bom controle da glicose\n\n• Alta: mostra que o açúcar ficou elevado por um período prolongado\n\n• Baixa: geralmente não é preocupante, mas pode ocorrer em algumas situações específicas",
         muitoBaixo: 0,
         baixo: 4.0,
         minimo: 4.0,
@@ -280,7 +280,7 @@ const tiposExames = {
   },
   lipidograma: {
     nome: "Lipidograma",
-    descricao: "Análise dos níveis de gordura no sangue",
+    descricao: "O lipidograma avalia os níveis de gordura no sangue. Ele ajuda a identificar e monitorar o risco de doenças cardiovasculares, como infarto e AVC.\n\nColesterol total: mostra a quantidade geral de colesterol no sangue.\n\nHDL (colesterol bom): ajuda a remover gordura das artérias, protegendo o coração.\n\nLDL (colesterol ruim): pode se acumular nas artérias e aumentar o risco de entupimento.\n\nNão-HDL: representa a soma das gorduras consideradas ruins, sendo um bom indicador de risco cardiovascular.\n\nTriglicerídeos: são gorduras relacionadas principalmente à alimentação. Quando estão altos, aumentam o risco de doenças do coração.",
     jejum: "Este exame pode ser realizado com jejum (ideal) ou sem jejum",
     exames: {
       colesterolTotal: {
