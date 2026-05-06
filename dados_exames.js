@@ -324,13 +324,14 @@ const tiposExames = {
         unidade: "mg/dL",
         descricao: "Colesterol 'bom' que remove gordura das artérias.",
         possuiIdades: true,
+        semLimiteSuperior: true, // HDL: quanto maior, melhor. Sem limite máximo clínico.
         idades: {
           adulto: {
             label: "Adultos (> 20 anos)",
             muitoBaixo: 0,
             baixo: 30,
             minimo: 40,
-            maximo: 999,
+            maximo: 60, // Valor de referência, mas não é limite máximo
             alto: 999,
             muitoAlto: 999
           },
@@ -339,7 +340,7 @@ const tiposExames = {
             muitoBaixo: 0,
             baixo: 35,
             minimo: 45,
-            maximo: 999,
+            maximo: 65, // Valor de referência, mas não é limite máximo
             alto: 999,
             muitoAlto: 999
           }

@@ -122,6 +122,8 @@ function preencherCamposExame() {
         input.dataset.chave = chaveExame;
         input.dataset.exame = JSON.stringify(exame);
         input.addEventListener('input', () => {
+            // CORREÇÃO: Permitir apenas números, vírgula e ponto
+            input.value = input.value.replace(/[^0-9.,]/g, '');
             valoresExames[chaveExame] = input.value;
         });
         
@@ -153,8 +155,8 @@ function analisarTodosExames() {
     
     Object.keys(exames).forEach(chaveExame => {
         const input = document.getElementById(`exame-${chaveExame}`);
-        // Converter vírgula para ponto antes de fazer parseFloat
-        const valorInput = input.value.replace(",", ".");
+        // Converter TODAS as vírgulas para ponto antes de fazer parseFloat (regex global /,/g)
+        const valorInput = input.value.replace(/,/g, ".");
         const valor = parseFloat(valorInput);
         
         if (isNaN(valor) || input.value.trim() === '') {
@@ -225,6 +227,9 @@ function analisarExame(chaveExame, valor, exame) {
     let mensagem = '';
     let dicas = [];
     
+    // CORREÇÃO HDL: Se tem semLimiteSuperior, não considerar limite máximo
+    const temLimiteSuperior = !exame.semLimiteSuperior;
+    
     if (muitoBaixo !== undefined && valor < muitoBaixo) {
         status = 'MUITO BAIXO';
         statusClass = 'muito-baixo';
@@ -246,21 +251,24 @@ function analisarExame(chaveExame, valor, exame) {
         if (exame.dicas && exame.dicas.baixo) {
             dicas = exame.dicas.baixo;
         }
-    } else if (muitoAlto !== undefined && valor > muitoAlto) {
+    } else if (temLimiteSuperior && muitoAlto !== undefined && valor > muitoAlto) {
+        // Se tem limite superior E valor > muitoAlto
         status = 'MUITO ALTO';
         statusClass = 'muito-alto';
         mensagem = exame.mensagemMuitoAlto || exame.mensagemAlto;
         if (exame.dicas && exame.dicas.muito_alto) {
             dicas = exame.dicas.muito_alto;
         }
-    } else if (alto !== undefined && valor > alto) {
+    } else if (temLimiteSuperior && alto !== undefined && valor > alto) {
+        // Se tem limite superior E valor > alto
         status = 'ALTO';
         statusClass = 'alto';
         mensagem = exame.mensagemAlto;
         if (exame.dicas && exame.dicas.alto) {
             dicas = exame.dicas.alto;
         }
-    } else if (valor > maximo) {
+    } else if (temLimiteSuperior && valor > maximo) {
+        // Se tem limite superior E valor > maximo
         status = 'ALTO';
         statusClass = 'alto';
         mensagem = exame.mensagemAlto;
@@ -288,6 +296,16 @@ function analisarExame(chaveExame, valor, exame) {
     };
 }
 
+// Função auxiliar para formatar decimais (máx 2 casas)
+function formatarDecimal(valor) {
+    const num = parseFloat(valor);
+    if (isNaN(num)) return valor;
+    // Se for inteiro, retorna sem decimais
+    if (Number.isInteger(num)) return num.toString();
+    // Se for decimal, formata com até 2 casas (remove zeros à direita)
+    return parseFloat(num.toFixed(2)).toString();
+}
+
 // Exibir todos os resultados
 function exibirTodosResultados(resultados) {
     resultadosContainer.innerHTML = '';
@@ -303,7 +321,8 @@ function exibirTodosResultados(resultados) {
         // Descrição (roxo/informativo) - PRIMEIRO
         const descricao = document.createElement('div');
         descricao.className = 'resultado-descricao';
-        descricao.innerHTML = `<p>${resultado.descricao}</p>`;
+        // CORREÇÃO: Converter \n para <br> para exibir quebras de linha corretamente
+        descricao.innerHTML = `<p>${resultado.descricao.replace(/\n/g, "<br>")}</p>`;
         
         // Status/Resultado (verde) - LOGO DEPOIS
         const statusDiv = document.createElement('div');
@@ -312,8 +331,10 @@ function exibirTodosResultados(resultados) {
         
         const info = document.createElement('div');
         info.className = 'resultado-info';
+        // CORREÇÃO: Formatar decimais com toFixed(2) na exibição
+        const valorFormatado = formatarDecimal(resultado.valor);
         info.innerHTML = `
-            <p><strong>Seu valor:</strong> <span>${resultado.valor} ${resultado.unidade}</span></p>
+            <p><strong>Seu valor:</strong> <span>${valorFormatado} ${resultado.unidade}</span></p>
             <p><strong>Intervalo de referência:</strong> <span>${resultado.minimo} - ${resultado.maximo} ${resultado.unidade}</span></p>
         `;
         
@@ -368,10 +389,12 @@ function criarGraficoHTML(resultado) {
     const range = resultado.maximo - resultado.minimo;
     const posicaoAbs = resultado.valor - resultado.minimo;
     const percentual = Math.min(100, Math.max(0, (posicaoAbs / range) * 100));
+    // CORREÇÃO: Formatar valor no gráfico
+    const valorFormatado = formatarDecimal(resultado.valor);
     
     return `
         <div class="grafico-exame">
-            <div class="grafico-label">Seu valor: ${resultado.valor} ${resultado.unidade}</div>
+            <div class="grafico-label">Seu valor: ${valorFormatado} ${resultado.unidade}</div>
             <div class="grafico-barra-container">
                 <div class="grafico-barra-background">
                     <div class="grafico-barra-preenchimento ${resultado.statusClass}" style="width: ${percentual}%"></div>
